@@ -228,7 +228,7 @@ class Gen:
             act = self.rng.choice(ACTIVITY[lang])
             cells = [(v["DATE"][0], "DATE_TIME"), (v["TIME"][0], "CLOCK_TIME"), (v["TIME2"][0], "CLOCK_TIME"),
                      (p, "PROJECT_NAME"), (code, "PROJECT_CODE"), (self.rng.choice(clients), "ORGANIZATION")]
-            for i, (val, ent) in enumerate(cells):
+            for val, ent in cells:
                 doc.ent(val, ent)
                 doc.add(sep)
             if self.rng.random() < 0.3:
