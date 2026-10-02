@@ -129,7 +129,9 @@ class DetectionPipeline:
                   warnings: list[str]) -> tuple[list[Span], int]:
         lo, hi = self.settings.layers.llm.adjudicate_range
         prelim = self.merger.merge(raw, text, apply_threshold=False)
-        uncertain = [x for x in prelim if lo <= x.score < hi]
+        # Pattern/dictionary hits are never put to a vote: the LLM judges "personal
+        # data" narrowly (e.g. it calls project codes harmless) and must not veto them.
+        uncertain = [x for x in prelim if lo <= x.score < hi and "patterns" not in x.sources]
         known = [x for x in prelim if x.score >= hi]
         found, verdicts = self.loaded["llm"].detect(text, uncertain, known, warnings)
         found = normalise(found, self.settings, text, allow, ignored)

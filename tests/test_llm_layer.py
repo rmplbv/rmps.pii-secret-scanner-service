@@ -58,3 +58,20 @@ def test_truncated_json_is_salvaged():
     from app.detection.llm_layer import _parse_json
     raw = '{"findings": [{"text": "Kowalski", "type": "PERSON"}, {"text": "jsm'
     assert _parse_json(raw) == {"findings": [{"text": "Kowalski", "type": "PERSON"}], "verdicts": []}
+
+
+def test_llm_cannot_veto_pattern_matches(settings, monkeypatch):
+    from app.detection.pipeline import DetectionOptions, DetectionPipeline
+
+    p = DetectionPipeline(settings, layers=["patterns", "spacy"])
+    p.settings = settings.model_copy(update={"profiles": {**settings.profiles, "t": ["patterns", "spacy", "llm"]}})
+
+    class Veto:
+        def detect(self, text, candidates, known, warnings):
+            from app.detection.llm_layer import Verdict
+            assert all("patterns" not in c.sources for c in candidates)
+            return [], [Verdict(c, False, None) for c in candidates]
+
+    p.loaded["llm"] = Veto()
+    r = p.detect("Gebucht auf PRJ-2024-017 am Montag.", DetectionOptions(profile="t"))
+    assert [s.text for s in r.spans] == ["PRJ-2024-017"]
