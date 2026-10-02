@@ -163,16 +163,19 @@ candidates:
     kind: llm
     repo: google/gemma-4-E4B-it-qat-q4_0-gguf
     file: gemma-4-E4B_q4_0-it.gguf
+    disable_thinking: true   # llama.cpp's Gemma 4 template thinks by default
 
   - id: gemma4-12b
     kind: llm
     repo: google/gemma-4-12B-it-qat-q4_0-gguf
     file: gemma-4-12b-it-qat-q4_0.gguf
+    disable_thinking: true   # llama.cpp's Gemma 4 template thinks by default
 
   - id: gemma4-26b-a4b
     kind: llm
     repo: google/gemma-4-26B-A4B-it-qat-q4_0-gguf
     file: gemma-4-26B_q4_0-it.gguf
+    disable_thinking: true   # llama.cpp's Gemma 4 template thinks by default
 
   - id: gpt-oss-20b
     kind: llm
@@ -197,3 +200,10 @@ candidates:
     file: Qwen3.8-27B-UD-IQ4_XS.gguf
     disable_thinking: true
     llm_limit: 8          # dense 27B: ~1-2 tok/s on this CPU
+
+  # ---------------------------------------------------------------- LLMs without veto
+  # Same models, but the LLM may only add findings/confirm uncertain spans, never suppress one.
+  - {id: qwen3-4b-instruct-2507-addonly, kind: llm, repo: unsloth/Qwen3-4B-Instruct-2507-GGUF, file: Qwen3-4B-Instruct-2507-Q4_K_M.gguf, allow_veto: false}
+  - {id: nuextract3-addonly, kind: llm, repo: numind/NuExtract3-GGUF, file: NuExtract3-Q4_K_M.gguf, disable_thinking: true, allow_veto: false}
+  - {id: gemma4-26b-a4b-addonly, kind: llm, repo: google/gemma-4-26B-A4B-it-qat-q4_0-gguf, file: gemma-4-26B_q4_0-it.gguf, disable_thinking: true, allow_veto: false}
+  - {id: qwen3-30b-a3b-instruct-2507-addonly, kind: llm, repo: unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF, file: Qwen3-30B-A3B-Instruct-2507-UD-Q4_K_XL.gguf, allow_veto: false}

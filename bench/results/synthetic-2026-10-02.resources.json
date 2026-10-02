@@ -1,0 +1,422 @@
+{
+  "patterns+spacy": {
+    "kind": "base",
+    "load_s": 3.3,
+    "run_s": 6.9,
+    "s_per_doc": 0.029,
+    "peak_rss_gb": 1.94,
+    "docs": 240
+  },
+  "davlan-xlmr-ner-hrl": {
+    "kind": "hf_token",
+    "load_s": 2.3,
+    "run_s": 77.0,
+    "ms_per_kchar": 861.9,
+    "s_per_doc": 0.321,
+    "peak_rss_gb": 2.1,
+    "docs": 240
+  },
+  "openai-privacy-filter": {
+    "kind": "hf_token",
+    "load_s": 35.0,
+    "run_s": 142.6,
+    "ms_per_kchar": 1597.0,
+    "s_per_doc": 0.594,
+    "peak_rss_gb": 3.53,
+    "docs": 240
+  },
+  "openmed-pf-multilingual-v2": {
+    "kind": "hf_token",
+    "load_s": 37.3,
+    "run_s": 133.0,
+    "ms_per_kchar": 1489.1,
+    "s_per_doc": 0.554,
+    "peak_rss_gb": 2.29,
+    "docs": 240
+  },
+  "openmed-pf-nemotron-v2": {
+    "kind": "hf_token",
+    "load_s": 36.0,
+    "run_s": 143.7,
+    "ms_per_kchar": 1608.7,
+    "s_per_doc": 0.599,
+    "peak_rss_gb": 2.21,
+    "docs": 240
+  },
+  "bardsai-eu-pii": {
+    "kind": "hf_token",
+    "load_s": 18.5,
+    "run_s": 22.4,
+    "ms_per_kchar": 251.3,
+    "s_per_doc": 0.094,
+    "peak_rss_gb": 1.37,
+    "docs": 240
+  },
+  "nym-pii-multilingual": {
+    "kind": "hf_token",
+    "load_s": 21.6,
+    "run_s": 40.6,
+    "ms_per_kchar": 454.6,
+    "s_per_doc": 0.169,
+    "peak_rss_gb": 1.64,
+    "docs": 240
+  },
+  "ai4privacy-modernbert": {
+    "kind": "hf_token",
+    "load_s": 12.0,
+    "run_s": 36.3,
+    "ms_per_kchar": 406.3,
+    "s_per_doc": 0.151,
+    "peak_rss_gb": 1.06,
+    "docs": 240
+  },
+  "gliner-multi-pii-v1": {
+    "kind": "gliner",
+    "load_s": 7.0,
+    "run_s": 67.8,
+    "ms_per_kchar": 759.3,
+    "s_per_doc": 0.283,
+    "peak_rss_gb": 2.77,
+    "docs": 240
+  },
+  "gliner-multi-v2.1": {
+    "kind": "gliner",
+    "load_s": 28.1,
+    "run_s": 68.7,
+    "ms_per_kchar": 769.2,
+    "s_per_doc": 0.286,
+    "peak_rss_gb": 3.09,
+    "docs": 240
+  },
+  "gliner2.5-multi": {
+    "kind": "gliner2",
+    "load_s": 22.6,
+    "run_s": 68.0,
+    "ms_per_kchar": 761.8,
+    "s_per_doc": 0.283,
+    "peak_rss_gb": 3.01,
+    "docs": 240
+  },
+  "gliner2-multi": {
+    "kind": "gliner2",
+    "load_s": 21.8,
+    "run_s": 77.4,
+    "ms_per_kchar": 866.2,
+    "s_per_doc": 0.322,
+    "peak_rss_gb": 2.93,
+    "docs": 240
+  },
+  "gliner2-privacy-pii-multi": {
+    "kind": "gliner2",
+    "load_s": 23.1,
+    "run_s": 82.9,
+    "ms_per_kchar": 927.8,
+    "s_per_doc": 0.345,
+    "peak_rss_gb": 3.09,
+    "docs": 240
+  },
+  "qwen3-8b": {
+    "kind": "llm",
+    "load_s": 8.1,
+    "run_s": 708.0,
+    "s_per_doc": 44.2,
+    "peak_rss_gb": 10.07,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 19.2,
+    "gen_tok_s": 4.31,
+    "generated_tokens": 1436,
+    "gguf_gb": 5.0
+  },
+  "qwen3-4b-instruct-2507": {
+    "kind": "llm",
+    "load_s": 4.0,
+    "run_s": 291.6,
+    "s_per_doc": 18.2,
+    "peak_rss_gb": 5.99,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 34.6,
+    "gen_tok_s": 7.16,
+    "generated_tokens": 641,
+    "gguf_gb": 2.5
+  },
+  "qwen3.5-4b": {
+    "kind": "llm",
+    "load_s": 4.0,
+    "run_s": 702.7,
+    "s_per_doc": 43.9,
+    "peak_rss_gb": 6.66,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 35.5,
+    "gen_tok_s": 7.27,
+    "generated_tokens": 3639,
+    "gguf_gb": 2.7
+  },
+  "qwen3.5-9b": {
+    "kind": "llm",
+    "load_s": 6.0,
+    "run_s": 674.9,
+    "s_per_doc": 42.2,
+    "peak_rss_gb": 9.74,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 18.5,
+    "gen_tok_s": 4.24,
+    "generated_tokens": 1238,
+    "gguf_gb": 5.7
+  },
+  "nuextract3": {
+    "kind": "llm",
+    "load_s": 6.0,
+    "run_s": 275.8,
+    "s_per_doc": 17.2,
+    "peak_rss_gb": 5.55,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 33.6,
+    "gen_tok_s": 7.29,
+    "generated_tokens": 279,
+    "gguf_gb": 2.8
+  },
+  "gemma4-e4b": {
+    "kind": "llm",
+    "load_s": 16.1,
+    "run_s": 384.4,
+    "s_per_doc": 24.0,
+    "peak_rss_gb": 8.03,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 27.4,
+    "gen_tok_s": 7.12,
+    "generated_tokens": 931,
+    "gguf_gb": 5.2
+  },
+  "gemma4-12b": {
+    "kind": "llm",
+    "load_s": 24.1,
+    "run_s": 989.0,
+    "s_per_doc": 61.8,
+    "peak_rss_gb": 18.75,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 9.6,
+    "gen_tok_s": 2.97,
+    "generated_tokens": 735,
+    "gguf_gb": 7.0
+  },
+  "gemma4-26b-a4b": {
+    "kind": "llm",
+    "load_s": 14.8,
+    "run_s": 499.6,
+    "s_per_doc": 31.2,
+    "peak_rss_gb": 31.12,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 25.6,
+    "gen_tok_s": 7.23,
+    "generated_tokens": 1547,
+    "gguf_gb": 14.4
+  },
+  "gpt-oss-20b": {
+    "kind": "llm",
+    "load_s": 10.4,
+    "run_s": 636.3,
+    "s_per_doc": 39.8,
+    "peak_rss_gb": 21.42,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 21.6,
+    "gen_tok_s": 8.19,
+    "generated_tokens": 2942,
+    "gguf_gb": 12.1
+  },
+  "qwen3-30b-a3b-instruct-2507": {
+    "kind": "llm",
+    "load_s": 22.1,
+    "run_s": 425.3,
+    "s_per_doc": 26.6,
+    "peak_rss_gb": 32.14,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 27.9,
+    "gen_tok_s": 8.48,
+    "generated_tokens": 1460,
+    "gguf_gb": 17.7
+  },
+  "qwen3.6-35b-a3b": {
+    "kind": "llm",
+    "load_s": 4.5,
+    "run_s": 496.7,
+    "s_per_doc": 31.0,
+    "peak_rss_gb": 18.84,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 26.7,
+    "gen_tok_s": 5.89,
+    "generated_tokens": 1394,
+    "gguf_gb": 17.7
+  },
+  "qwen3.8-27b": {
+    "kind": "llm",
+    "load_s": 8.4,
+    "run_s": 1043.9,
+    "s_per_doc": 130.5,
+    "peak_rss_gb": 17.84,
+    "docs": 8,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 5.1,
+    "gen_tok_s": 1.25,
+    "generated_tokens": 349,
+    "gguf_gb": 14.3
+  },
+  "qwen3-4b-instruct-2507-addonly": {
+    "kind": "llm",
+    "load_s": 10.1,
+    "run_s": 293.1,
+    "s_per_doc": 18.3,
+    "peak_rss_gb": 5.99,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 34.4,
+    "gen_tok_s": 7.11,
+    "generated_tokens": 641,
+    "gguf_gb": 2.5
+  },
+  "nuextract3-addonly": {
+    "kind": "llm",
+    "load_s": 12.1,
+    "run_s": 276.4,
+    "s_per_doc": 17.3,
+    "peak_rss_gb": 5.55,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 33.5,
+    "gen_tok_s": 7.35,
+    "generated_tokens": 279,
+    "gguf_gb": 2.8
+  },
+  "gemma4-26b-a4b-addonly": {
+    "kind": "llm",
+    "load_s": 18.1,
+    "run_s": 514.7,
+    "s_per_doc": 32.2,
+    "peak_rss_gb": 31.12,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 24.5,
+    "gen_tok_s": 7.21,
+    "generated_tokens": 1547,
+    "gguf_gb": 14.4
+  },
+  "qwen3-30b-a3b-instruct-2507-addonly": {
+    "kind": "llm",
+    "load_s": 62.4,
+    "run_s": 429.6,
+    "s_per_doc": 26.9,
+    "peak_rss_gb": 32.14,
+    "docs": 16,
+    "base": [
+      "patterns",
+      "spacy",
+      "bardsai-eu-pii",
+      "gliner-multi-v2.1"
+    ],
+    "warnings": 0,
+    "prompt_tok_s": 27.7,
+    "gen_tok_s": 8.47,
+    "generated_tokens": 1460,
+    "gguf_gb": 17.7
+  }
+}

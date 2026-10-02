@@ -194,7 +194,8 @@ def cmd_llm(args) -> None:
                          disable_thinking=d.get("disable_thinking", False), extra_body=d.get("extra_body", {}),
                          max_tokens=d.get("max_tokens", settings.layers.llm.max_tokens),
                          chunk_chars=d.get("chunk_chars", settings.layers.llm.chunk_chars),
-                         timeout_seconds=d.get("timeout_seconds", 1800))
+                         timeout_seconds=d.get("timeout_seconds", 1800),
+                         allow_veto=d.get("allow_veto", True))
         preds, warnings, t1 = {}, [], time.perf_counter()
         for i, p in enumerate(prepared):
             raw = {l: caches[l].get(p.doc.id, []) for l in base_layers}

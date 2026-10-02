@@ -66,6 +66,7 @@ class LlmLayer(_Model):
     adjudicate_range: tuple[float, float] = (0.25, 0.75)
     score_found: float = 0.75
     max_candidates: int = 60          # uncertain spans sent for a verdict per document (output cost)
+    allow_veto: bool = True           # False: the LLM may only add/confirm, never suppress a detection
     disable_thinking: bool = True
     extra_body: dict[str, Any] = {}   # merged into every request (e.g. reasoning_effort, chat_template_kwargs)
     max_retries: int = 2

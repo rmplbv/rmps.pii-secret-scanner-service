@@ -1,0 +1,9 @@
+#preset: general
+Hallo [[PERSON|Thomas]],
+
+wie besprochen die Unterlagen von [[PERSON|Julia Bauer]] ([[EMAIL_ADDRESS|julia.bauer@example.org]]). Das Treffen mit der [[ORGANIZATION|Gemeinde Wartenberg]] ist am 14. November um 18:30 Uhr.
+[[PERSON|Bauer]] ist seit Montag [[HEALTH_DATA|krankgeschrieben]], bitte ruf unter [[PHONE_NUMBER|0941 123456]] an.
+Der Kiebitz brütet wieder auf der Streuobstwiese.
+
+Viele Grüße
+[[PERSON|Martin Seitz]]

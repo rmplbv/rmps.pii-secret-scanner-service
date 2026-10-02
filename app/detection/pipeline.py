@@ -176,7 +176,7 @@ class DetectionPipeline:
             if v.is_pii:
                 found.append(Span(c.start, c.end, v.entity if v.entity and v.entity != "OTHER_PII" else c.entity,
                                   0.85, {"llm"}, c.text))
-            else:
+            elif getattr(llm.cfg, "allow_veto", True):
                 # LLM says "not PII": damp every raw span behind this candidate
                 for r in raw:
                     if r.entity == c.entity and r.overlaps(c):

@@ -182,7 +182,11 @@ class LlmLayer:
             try:
                 r = self.client.post("/v1/chat/completions", json=body)
                 r.raise_for_status()
-                content = r.json()["choices"][0]["message"]["content"] or ""
+                msg = r.json()["choices"][0]["message"]
+                content = msg.get("content") or ""
+                if "{" not in content and msg.get("reasoning_content"):
+                    # template put the answer into the reasoning channel (thinking models)
+                    content = msg["reasoning_content"]
                 return _parse_json(content)
             except (httpx.HTTPError, KeyError, ValueError) as err:
                 last_err = err
