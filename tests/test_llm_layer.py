@@ -52,3 +52,9 @@ def test_llm_errors_are_skipped_with_warning(settings):
     warnings = []
     found, verdicts = layer.detect("Ein Text über Frau Kowalski.", warnings=warnings)
     assert found == [] and len(warnings) == 1 and "skipped" in warnings[0]
+
+
+def test_truncated_json_is_salvaged():
+    from app.detection.llm_layer import _parse_json
+    raw = '{"findings": [{"text": "Kowalski", "type": "PERSON"}, {"text": "jsm'
+    assert _parse_json(raw) == {"findings": [{"text": "Kowalski", "type": "PERSON"}], "verdicts": []}

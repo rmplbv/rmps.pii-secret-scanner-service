@@ -86,12 +86,12 @@ def _schema() -> dict:
     return {
         "type": "object",
         "properties": {
-            "findings": {"type": "array", "items": {
+            "findings": {"type": "array", "maxItems": 60, "items": {
                 "type": "object",
                 "properties": {"text": {"type": "string"}, "type": {"type": "string", "enum": types}},
                 "required": ["text", "type"],
             }},
-            "verdicts": {"type": "array", "items": {
+            "verdicts": {"type": "array", "maxItems": 80, "items": {
                 "type": "object",
                 "properties": {"id": {"type": "integer"}, "is_pii": {"type": "boolean"},
                                "type": {"type": "string", "enum": types}},
@@ -173,7 +173,9 @@ class LlmLayer:
         if self.cfg.disable_thinking:
             body["chat_template_kwargs"] = {"enable_thinking": False}
         last_err: Exception | None = None
-        for _ in range(self.cfg.max_retries + 1):
+        for attempt in range(self.cfg.max_retries + 1):
+            if attempt:  # greedy decoding would repeat a degenerate answer verbatim
+                body["temperature"] = max(self.cfg.temperature, 0.3 * attempt)
             try:
                 r = self.client.post("/v1/chat/completions", json=body)
                 r.raise_for_status()
@@ -181,16 +183,27 @@ class LlmLayer:
                 return _parse_json(content)
             except (httpx.HTTPError, KeyError, ValueError) as err:
                 last_err = err
-                log.warning("LLM call failed (offset %d): %s", offset, err)
+                log.warning("LLM call failed (offset %d, attempt %d): %s", offset, attempt + 1, err)
         raise RuntimeError(f"LLM layer failed: {last_err}")
 
 
 def _parse_json(content: str) -> dict:
     content = re.sub(r"<think>.*?</think>", "", content, flags=re.DOTALL).strip()
     m = re.search(r"\{.*\}", content, flags=re.DOTALL)
-    if not m:
-        raise ValueError("no JSON object in LLM response")
-    return json.loads(m.group())
+    if m:
+        try:
+            return json.loads(m.group())
+        except ValueError:
+            pass
+    # truncated output (max_tokens hit, runaway list): keep every complete entry
+    findings = [{"text": t, "type": y} for t, y in re.findall(
+        r'\{\s*"text"\s*:\s*"((?:[^"\\]|\\.)*)"\s*,\s*"type"\s*:\s*"(\w+)"\s*\}', content)]
+    verdicts = [{"id": int(i), "is_pii": p == "true"} for i, p in re.findall(
+        r'\{\s*"id"\s*:\s*(\d+)\s*,\s*"is_pii"\s*:\s*(true|false)', content)]
+    if not findings and not verdicts:
+        raise ValueError("no usable JSON in LLM response")
+    log.warning("LLM response was truncated; salvaged %d findings, %d verdicts", len(findings), len(verdicts))
+    return {"findings": findings, "verdicts": verdicts}
 
 
 def _locate(text: str, needle: str) -> list[tuple[int, int]]:
