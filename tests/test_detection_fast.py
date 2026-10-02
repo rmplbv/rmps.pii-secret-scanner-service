@@ -17,7 +17,7 @@ def found(result):
 
 
 def test_fast_profile_core_entities(fast_pipeline):
-    r = fast_pipeline.detect(TEXT, DetectionOptions(profile="fast"))
+    r = fast_pipeline.detect(TEXT, DetectionOptions(profile="fast", preset="timesheet"))
     f = found(r)
     for item in [
         ("EMPLOYEE_ID", "48213"), ("ADDRESS", "Hauptstraße 5, 80331 München"),
@@ -35,7 +35,7 @@ def test_fast_profile_core_entities(fast_pipeline):
 
 
 def test_timesheet_detect_switch(fast_pipeline):
-    r = fast_pipeline.detect(TEXT, DetectionOptions(profile="fast", timesheet={"clock_times": {"detect": False},
+    r = fast_pipeline.detect(TEXT, DetectionOptions(profile="fast", preset="timesheet", timesheet={"clock_times": {"detect": False},
                                                                              "durations": {"detect": False}}))
     assert not any(s.entity in ("CLOCK_TIME", "DURATION") for s in r.spans)
 

@@ -21,10 +21,14 @@ TIMESHEET_FEATURE = {
     "PROJECT_NAME": "project_names",
     "PROJECT_CODE": "project_codes",
     "DATE_TIME": "dates",
-    "DATE_OF_BIRTH": "dates",
     "CLOCK_TIME": "clock_times",
     "DURATION": "durations",
 }
+
+
+# Entities whose *fake* behaviour follows a timesheet switch even though they
+# are always detected (a date of birth is PII in every kind of text).
+FAKE_FEATURE = {**TIMESHEET_FEATURE, "DATE_OF_BIRTH": "dates"}
 
 
 @dataclass

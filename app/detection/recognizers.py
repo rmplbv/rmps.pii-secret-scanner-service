@@ -165,9 +165,9 @@ ADDRESS_PATTERNS = [
     # Hauptstraße 5, Berliner Straße 12a, Am Weinberg 3 — optional ", 80331 München"
     rf"(?:{_CAP}\s){{0,2}}(?:{_CAP}{_STREET_SUFFIX}|(?:Straße|Strasse|Weg|Platz|Allee|Gasse|Ring|Damm)\b)"
     r"\s+\d{1,4}(?:\s?[a-zA-Z]\b)?(?:\s?[-/]\s?\d{1,4}[a-zA-Z]?)?"
-    r"(?:,?\s+(?:D-)?\d{5}\s+[A-ZÄÖÜ][\wäöüß\-]+(?:\s(?:an\sder|am|im|bei|in)\s[A-ZÄÖÜ][\wäöüß]+)?)?",
+    r"(?:,?[ \t]+(?:D-)?\d{5}[ \t]+[A-ZÄÖÜ][\wäöüß\-]+(?:\s(?:an\sder|am|im|bei|in)\s[A-ZÄÖÜ][\wäöüß]+)?)?",
     # 80331 München (postal code + city on its own)
-    r"\b(?:D-)?\d{5}\s+[A-ZÄÖÜ][a-zäöüß]+(?:[\- ][A-ZÄÖÜ][a-zäöüß]+)?(?=[\s,.;)]|$)",
+    r"\b(?:D-)?\d{5}[ \t]+[A-ZÄÖÜ][a-zäöüß]+(?:[\- ][A-ZÄÖÜ][a-zäöüß]+)?(?=[\s,.;)]|$)",
     # 221B Baker Street, 10 Downing St
     r"\b\d{1,5}[A-Za-z]?\s+(?:[A-Z][a-z]+\s){1,3}(?:Street|St\.?|Road|Rd\.?|Avenue|Ave\.?|Lane|Ln\.?|"
     r"Drive|Dr\.?|Boulevard|Blvd\.?|Way|Court|Ct\.?|Place|Pl\.?|Square|Sq\.?|Terrace|Close|Crescent)\b",
@@ -196,3 +196,72 @@ def timesheet_recognizers(language: str) -> list[EntityRecognizer]:
         1, 0.95, language,
     ))
     return out
+
+
+# --- person names: first-name gazetteer + honorifics ----------------------------------
+
+# First names that are ordinary words far more often than names.
+_AMBIGUOUS_FIRST = {
+    "will", "mark", "rose", "may", "june", "april", "august", "grant", "page", "bill", "art", "dean", "hope",
+    "faith", "joy", "summer", "autumn", "sunny", "rich", "dawn", "chance", "case", "chase", "cash", "price",
+    "major", "king", "earl", "duke", "baron", "prince", "royal", "jack", "pat", "sue", "ray", "guy", "hunter",
+    "mai", "juni", "juli", "maria", "frank", "ernst", "fritz", "hans", "kurt", "otto", "heinz", "karl", "paul",
+    "ella", "ida", "lisa", "max", "ben", "tim", "tom", "jan", "kai", "leo", "emil", "jona", "noah",
+}  # (common German names are listed so they do not *alone* trigger; they still match with a surname)
+_SINGLE_OK = _AMBIGUOUS_FIRST - {"will", "mark", "rose", "may", "june", "april", "august", "grant", "page",
+                                 "bill", "art", "dean", "hope", "faith", "joy", "summer", "autumn", "sunny",
+                                 "rich", "dawn", "chance", "case", "chase", "cash", "price", "major", "king",
+                                 "earl", "duke", "baron", "prince", "royal", "hunter", "mai", "juni", "juli"}
+_LOCALES = ("de_DE", "de_AT", "de_CH", "en_US", "en_GB", "tr_TR", "pl_PL", "it_IT", "fr_FR", "es_ES", "hr_HR")
+
+
+def first_names() -> set[str]:
+    import importlib
+
+    names: set[str] = set()
+    for loc in _LOCALES:
+        try:
+            prov = importlib.import_module(f"faker.providers.person.{loc}").Provider
+        except ImportError:
+            continue
+        for attr in ("first_names", "first_names_male", "first_names_female"):
+            vals = getattr(prov, attr, ())
+            names.update(vals.keys() if isinstance(vals, dict) else vals)
+    words = {w for w in names if re.fullmatch(r"[A-ZÄÖÜŞÇĞİ][a-zäöüßşçğıéèáàíóúñ]{2,}", w)}
+    return {w for w in words if w.lower() not in _AMBIGUOUS_FIRST - _SINGLE_OK}
+
+
+# Role nouns after "Herr"/"Frau" ("Frau Ministerin", "Herr Bürgermeister") are not names.
+_ROLE = re.compile(
+    r"(?:Minister|Bürgermeister|Oberbürgermeister|Landrat|Kolleg|Doktor|Professor|Präsident|Vorsitzend|"
+    r"Direktor|Pfarrer|Kanzler|Abgeordnet|Richter|Anwalt|Anwält|Kund|Nachbar|Geschäftsführer|Leiter|"
+    r"Referent|Sachbearbeiter|Vorstand|Kassier|Schriftführer|Beauftragt|Gemeinderat|Stadtrat)"
+    r"(?:in|innen|e|en|er|s)?")
+
+
+class PersonNameRecognizer(RegexGroupRecognizer):
+    """"Anna Huber", "Mehmet Yılmaz", "Herr Fink", "Dr. Weber". Complements spaCy,
+    which often mislabels names next to "&", in lists or at line starts."""
+
+    SURNAME = r"(?:(?:von|van|de|der|den|zu|da|di|del)\s+){0,2}[A-ZÄÖÜŞÇ][a-zäöüßşçğıéèáàíóú]+(?:-[A-ZÄÖÜ][a-zäöüß]+)?"
+
+    def __init__(self, language: str, names: set[str] | None = None, stop: set[str] | None = None):
+        names = names if names is not None else first_names()
+        self.stop = stop or set()
+        alt = "|".join(sorted(map(re.escape, names), key=len, reverse=True))
+        self.name_re = re.compile(rf"(?<![\w-])((?:{alt})(?:[ -](?:{alt}))?\s+{self.SURNAME})(?![\w])")
+        title = r"(?:Herrn?|Frau|Hr\.|Fr\.|Dr\.(?:\s?(?:med|rer\.\s?nat|phil|jur)\.)?|Prof\.|Dipl\.-\w+\.?|Mr\.?|Mrs\.?|Ms\.?|Miss|Mx\.?)"
+        self.title_re = re.compile(
+            rf"(?<![\w]){title}(?:\s+{title})*\s+"
+            rf"((?!(?:Dr|Prof|Dipl|Herr|Frau)\b)(?:[A-ZÄÖÜ][a-zäöüß]+\s+)?{self.SURNAME})(?![\w])")
+        super().__init__("person_names", "PERSON", r"(?!x)x", 0, 0.6, language)
+
+    def analyze(self, text, entities, nlp_artifacts=None):
+        out = []
+        for rx, score in ((self.title_re, 0.75), (self.name_re, 0.6)):
+            for m in rx.finditer(text):
+                last = m.group(1).split()[-1].split("-")[-1]
+                if last.lower() in self.stop or _ROLE.fullmatch(m.group(1).split()[-1]):
+                    continue  # "Anna Und", "Frau Ministerin"
+                out.append(self._result(m.start(1), m.end(1), score))
+        return out

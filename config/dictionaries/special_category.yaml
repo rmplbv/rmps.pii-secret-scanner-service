@@ -156,7 +156,7 @@ categories:
         Sunnit*, sunnitisch, Schiit*, schiitisch, Alevit*, alevitisch, Ahmadiyya,
         jüdisch, Jüdin, Judentum, Synagoge, Moschee, buddhistisch, Buddhist*, Buddhismus,
         hinduistisch, Hinduismus, Hindu, Sikh*, Jeside*, Jesid*, jesidisch, Bahai, Bahá'í,
-        atheistisch, Atheist*, agnostisch, Agnostiker*, konfessionslos, Konfession*,
+        atheistisch, Atheist*, agnostisch, Agnostiker*, konfessionslos,
         Religionszugehörigkeit, Glaubensbekenntnis, Glaubensgemeinschaft,
         Religionsgemeinschaft, Kirchensteuer*, Kirchenaustritt, aus der Kirche ausgetreten,
         Kirchenmitglied*, Kirchenzugehörigkeit, Ramadan, Fastenbrechen, Zuckerfest,
@@ -185,13 +185,13 @@ categories:
         orthodox, reformiert, Jude, Christ, Kirche, Gemeindemitglied, Kirchengemeinde,
         Gottesdienst, Messe, Pfarrer, Pfarrerin, Pastor, Pastorin, Imam, Rabbiner, Priester,
         Taufe, Kommunion, Beschneidung, Pilgerfahrt, Kopftuch, Turban, Gebet, Gebetsraum,
-        Religion, Glaube, Ostern, Weihnachten, Advent, Fastenzeit, Kirchentag, Eid,
+        Glaube, Ostern, Weihnachten, Advent, Fastenzeit, Kirchentag, Eid,
         Opfergabe, Gemeinde, Kloster
       ]
       en: [
         orthodox, Jew, Christian, church, congregation, parish, mass, priest, pastor, imam,
         rabbi, minister, baptism, confirmation, pilgrimage, headscarf, turban, prayer,
-        religion, religious, faith, Lent, Christmas, Easter, Eid, temple, monastery
+        faith, Lent, Christmas, Easter, Eid, temple, monastery
       ]
     context:
       de: [

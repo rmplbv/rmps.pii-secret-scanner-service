@@ -1,0 +1,199 @@
+# Benchmark candidates (reviewed list, 2026-10-02). See bench/CANDIDATES.md for the rationale,
+# licences and what was excluded. Every entry runs sequentially in its own process.
+#
+# kind: hf_token (transformers token classification) | gliner | gliner2 | llm (GGUF via llama.cpp)
+# weight: reliability weight in the ensemble merger (default 0.9)
+# baseline: true -> part of the current production configuration
+# python: interpreter for this candidate (gliner2 needs transformers<5 -> separate venv)
+
+defaults:
+  llm: {ctx_size: 8192, threads: 6, max_tokens: 2048}
+
+candidates:
+  # ---------------------------------------------------------------- NER: token classification
+  - id: davlan-xlmr-ner-hrl
+    kind: hf_token
+    model: Davlan/xlm-roberta-large-ner-hrl
+    label_map: {PER: PERSON, ORG: ORGANIZATION, LOC: LOCATION}
+    weight: 0.95
+    baseline: true
+
+  - id: openai-privacy-filter
+    kind: hf_token
+    model: openai/privacy-filter
+    aggregation: bioes
+    chunk_chars: 6000
+    label_map: {private_person: PERSON, private_address: ADDRESS, private_email: EMAIL_ADDRESS,
+                private_phone: PHONE_NUMBER, private_url: URL, private_date: DATE_TIME, account_number: ID_NUMBER}
+
+  - id: openmed-pf-multilingual-v2
+    kind: hf_token
+    model: OpenMed/privacy-filter-multilingual-v2
+    aggregation: bioes
+    trust_remote_code: true
+    chunk_chars: 6000
+    label_map: {FIRSTNAME: PERSON, MIDDLENAME: PERSON, LASTNAME: PERSON, EMAIL: EMAIL_ADDRESS, PHONE: PHONE_NUMBER,
+                STREET: ADDRESS, BUILDINGNUMBER: ADDRESS, SECONDARYADDRESS: ADDRESS, ZIPCODE: ADDRESS, CITY: LOCATION,
+                COUNTY: LOCATION, IBAN: IBAN_CODE, BANKACCOUNT: IBAN_CODE, BIC: IBAN_CODE, CREDITCARD: CREDIT_CARD,
+                DATEOFBIRTH: DATE_OF_BIRTH, DATE: DATE_TIME, TIME: CLOCK_TIME, ORGANIZATION: ORGANIZATION,
+                USERNAME: USERNAME, ACCOUNTNAME: USERNAME, SSN: ID_NUMBER, PASSWORD: OTHER_PII, IPADDRESS: IP_ADDRESS,
+                URL: URL, VRM: ID_NUMBER, VIN: ID_NUMBER}
+
+  - id: openmed-pf-nemotron-v2
+    kind: hf_token
+    model: OpenMed/privacy-filter-nemotron-v2
+    aggregation: bioes
+    trust_remote_code: true
+    chunk_chars: 6000
+    label_map: {first_name: PERSON, last_name: PERSON, email: EMAIL_ADDRESS, phone_number: PHONE_NUMBER,
+                fax_number: PHONE_NUMBER, street_address: ADDRESS, postcode: ADDRESS, city: LOCATION, county: LOCATION,
+                date_of_birth: DATE_OF_BIRTH, date: DATE_TIME, date_time: DATE_TIME, time: CLOCK_TIME,
+                ssn: ID_NUMBER, national_id: ID_NUMBER, tax_id: ID_NUMBER, account_number: IBAN_CODE,
+                swift_bic: IBAN_CODE, credit_debit_card: CREDIT_CARD, employee_id: EMPLOYEE_ID, customer_id: ID_NUMBER,
+                unique_id: ID_NUMBER, certificate_license_number: ID_NUMBER, license_plate: ID_NUMBER,
+                medical_record_number: ID_NUMBER, health_plan_beneficiary_number: ID_NUMBER,
+                race_ethnicity: ETHNIC_ORIGIN, sexuality: SEXUAL_ORIENTATION, religious_belief: RELIGION,
+                political_view: POLITICAL_OPINION, biometric_identifier: GENETIC_BIOMETRIC, blood_type: HEALTH_DATA,
+                url: URL, ipv4: IP_ADDRESS, ipv6: IP_ADDRESS}
+
+  - id: bardsai-eu-pii
+    kind: hf_token
+    model: bardsai/eu-pii-anonimization-multilang
+    label_map: {PERSON_NAME: PERSON, PERSON_ALIAS: PERSON, ORGANIZATION_NAME: ORGANIZATION, LOCATION: LOCATION,
+                GEO_LOCATION: LOCATION, POSTAL_ADDRESS: ADDRESS, EMAIL_ADDRESS: EMAIL_ADDRESS, PHONE_NUMBER: PHONE_NUMBER,
+                BANK_ACCOUNT_IDENTIFIER: IBAN_CODE, PAYMENT_CARD: CREDIT_CARD, DATE_OF_BIRTH: DATE_OF_BIRTH,
+                HEALTH_DATA: HEALTH_DATA, RELIGION_OR_BELIEF: RELIGION, POLITICAL_OPINION: POLITICAL_OPINION,
+                TRADE_UNION_MEMBERSHIP: TRADE_UNION, SEXUAL_ORIENTATION: SEXUAL_ORIENTATION, ETHNIC_ORIGIN: ETHNIC_ORIGIN,
+                BIOMETRIC_DATA: GENETIC_BIOMETRIC, PERSON_IDENTIFIER: ID_NUMBER, DOCUMENT_IDENTIFIER: ID_NUMBER,
+                ACCOUNT_IDENTIFIER: ID_NUMBER, DEVICE_IDENTIFIER: ID_NUMBER, VEHICLE_IDENTIFIER: ID_NUMBER,
+                CONTACT_HANDLE: USERNAME, IP_ADDRESS: IP_ADDRESS, IDENTIFYING_LINK: URL}
+
+  - id: nym-pii-multilingual
+    kind: hf_token
+    model: Wismut/nym-pii-multilingual
+    chunk_chars: 6000
+    label_map: {GIVEN_NAME: PERSON, SURNAME: PERSON, COMPANY_NAME: ORGANIZATION, CITY: LOCATION,
+                STREET_ADDRESS: ADDRESS, STREET_NAME: ADDRESS, BUILDING_NUMBER: ADDRESS, SECONDARY_ADDRESS: ADDRESS,
+                ZIP_CODE: ADDRESS, EMAIL: EMAIL_ADDRESS, PHONE: PHONE_NUMBER, FAX_NUMBER: PHONE_NUMBER,
+                IBAN: IBAN_CODE, ACCOUNT_NUMBER: IBAN_CODE, ROUTING_NUMBER: IBAN_CODE, SWIFT_BIC: IBAN_CODE,
+                CREDIT_DEBIT_CARD: CREDIT_CARD, DATE_OF_BIRTH: DATE_OF_BIRTH, DATE: DATE_TIME, TIME: CLOCK_TIME,
+                EMPLOYEE_ID: EMPLOYEE_ID, CUSTOMER_ID: ID_NUMBER, GOVERNMENT_ID: ID_NUMBER, PASSPORT: ID_NUMBER,
+                DRIVERS_LICENSE: ID_NUMBER, SSN: ID_NUMBER, TAX_ID: ID_NUMBER, LICENSE_PLATE: ID_NUMBER,
+                MEDICAL_RECORD_NUMBER: ID_NUMBER, USERNAME: USERNAME, URL: URL}
+
+  - id: ai4privacy-modernbert
+    kind: hf_token
+    model: ai4privacy/llama-ai4privacy-multilingual-categorical-anonymiser-openpii
+    chunk_chars: 6000
+    label_map: {GIVENNAME: PERSON, SURNAME: PERSON, CITY: LOCATION, STREET: ADDRESS, BUILDINGNUM: ADDRESS,
+                ZIPCODE: ADDRESS, EMAIL: EMAIL_ADDRESS, TELEPHONENUM: PHONE_NUMBER, DATE: DATE_TIME, TIME: CLOCK_TIME,
+                CREDITCARDNUMBER: CREDIT_CARD, IDCARDNUM: ID_NUMBER, PASSPORTNUM: ID_NUMBER, SOCIALNUM: ID_NUMBER,
+                TAXNUM: ID_NUMBER, DRIVERLICENSENUM: ID_NUMBER}
+
+  # ---------------------------------------------------------------- NER: GLiNER (zero-shot)
+  - id: gliner-multi-pii-v1
+    kind: gliner
+    model: urchade/gliner_multi_pii-v1
+    labels: default
+    weight: 0.9
+    baseline: true
+
+  - id: gliner-multi-v2.1
+    kind: gliner
+    model: urchade/gliner_multi-v2.1
+    labels: default
+
+  - id: gliner2.5-multi
+    kind: gliner2
+    model: fastino/gliner2.5-multi-v1
+    labels: default
+    threshold: 0.4
+    python: .venv-gliner2/bin/python
+
+  - id: gliner2-multi
+    kind: gliner2
+    model: fastino/gliner2-multi-v1
+    labels: default
+    threshold: 0.4
+    python: .venv-gliner2/bin/python
+
+  - id: gliner2-privacy-pii-multi
+    kind: gliner2
+    model: fastino/gliner2-privacy-filter-PII-multi
+    threshold: 0.4
+    python: .venv-gliner2/bin/python
+    labels: {full_name: PERSON, first_name: PERSON, last_name: PERSON, email: EMAIL_ADDRESS, phone_number: PHONE_NUMBER,
+             street_address: ADDRESS, address: ADDRESS, city: LOCATION, iban: IBAN_CODE, bank_account: IBAN_CODE,
+             date_of_birth: DATE_OF_BIRTH, username: USERNAME, tax_id: ID_NUMBER, national_id_number: ID_NUMBER,
+             passport_number: ID_NUMBER, account_id: ID_NUMBER, payment_card: CREDIT_CARD, ip_address: IP_ADDRESS,
+             organization: ORGANIZATION, project name: PROJECT_NAME, medical condition: HEALTH_DATA}
+
+  # ---------------------------------------------------------------- LLMs (GGUF, llama.cpp)
+  - id: qwen3-8b
+    kind: llm
+    repo: Qwen/Qwen3-8B-GGUF
+    file: Qwen3-8B-Q4_K_M.gguf
+    disable_thinking: true
+    baseline: true
+
+  - id: qwen3-4b-instruct-2507
+    kind: llm
+    repo: unsloth/Qwen3-4B-Instruct-2507-GGUF
+    file: Qwen3-4B-Instruct-2507-Q4_K_M.gguf
+
+  - id: qwen3.5-4b
+    kind: llm
+    repo: unsloth/Qwen3.5-4B-GGUF
+    file: Qwen3.5-4B-Q4_K_M.gguf
+    disable_thinking: true
+
+  - id: qwen3.5-9b
+    kind: llm
+    repo: unsloth/Qwen3.5-9B-GGUF
+    file: Qwen3.5-9B-Q4_K_M.gguf
+    disable_thinking: true
+
+  - id: nuextract3
+    kind: llm
+    repo: numind/NuExtract3-GGUF
+    file: NuExtract3-Q4_K_M.gguf
+    disable_thinking: true
+
+  - id: gemma4-e4b
+    kind: llm
+    repo: google/gemma-4-E4B-it-qat-q4_0-gguf
+    file: gemma-4-E4B_q4_0-it.gguf
+
+  - id: gemma4-12b
+    kind: llm
+    repo: google/gemma-4-12B-it-qat-q4_0-gguf
+    file: gemma-4-12b-it-qat-q4_0.gguf
+
+  - id: gemma4-26b-a4b
+    kind: llm
+    repo: google/gemma-4-26B-A4B-it-qat-q4_0-gguf
+    file: gemma-4-26B_q4_0-it.gguf
+
+  - id: gpt-oss-20b
+    kind: llm
+    repo: ggml-org/gpt-oss-20b-GGUF
+    file: gpt-oss-20b-MXFP4.gguf
+    extra_body: {reasoning_effort: low}
+
+  - id: qwen3-30b-a3b-instruct-2507
+    kind: llm
+    repo: unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF
+    file: Qwen3-30B-A3B-Instruct-2507-UD-Q4_K_XL.gguf
+
+  - id: qwen3.6-35b-a3b
+    kind: llm
+    repo: unsloth/Qwen3.6-35B-A3B-GGUF
+    file: Qwen3.6-35B-A3B-UD-IQ4_XS.gguf
+    disable_thinking: true
+
+  - id: qwen3.8-27b
+    kind: llm
+    repo: unsloth/Qwen3.8-27B-GGUF
+    file: Qwen3.8-27B-UD-IQ4_XS.gguf
+    disable_thinking: true
+    llm_limit: 8          # dense 27B: ~1-2 tok/s on this CPU

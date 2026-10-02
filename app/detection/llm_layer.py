@@ -68,14 +68,15 @@ USER_PROMPT = """TEXT:
 
 {known_block}{candidates_block}Return JSON with:
 - "findings": personal data in TEXT that is NOT already detected, as {{"text": <verbatim string>, "type": <entity type>}}. List each distinct string once. Empty list if nothing was missed.
-- "verdicts": for each candidate id, {{"id": <id>, "is_pii": true/false, "type": <entity type>}}"""
+- "pii": ids of the candidates that ARE personal data here
+- "not_pii": ids of the candidates that are NOT personal data here"""
 
 KNOWN_PROMPT = """ALREADY DETECTED (do not repeat these, look for what is missing):
 {items}
 
 """
 
-CANDIDATES_PROMPT = """Other detectors are UNSURE about these candidates. Decide for each whether it is personal data in this context:
+CANDIDATES_PROMPT = """CANDIDATES other detectors are unsure about (id: text [suggested type]). Put every id in "pii" or "not_pii":
 {items}
 
 """
@@ -83,6 +84,7 @@ CANDIDATES_PROMPT = """Other detectors are UNSURE about these candidates. Decide
 
 def _schema() -> dict:
     types = list(ENTITY_TYPES)
+    ids = {"type": "array", "maxItems": 120, "items": {"type": "integer"}}
     return {
         "type": "object",
         "properties": {
@@ -91,14 +93,10 @@ def _schema() -> dict:
                 "properties": {"text": {"type": "string"}, "type": {"type": "string", "enum": types}},
                 "required": ["text", "type"],
             }},
-            "verdicts": {"type": "array", "maxItems": 80, "items": {
-                "type": "object",
-                "properties": {"id": {"type": "integer"}, "is_pii": {"type": "boolean"},
-                               "type": {"type": "string", "enum": types}},
-                "required": ["id", "is_pii"],
-            }},
+            "pii": ids,
+            "not_pii": ids,
         },
-        "required": ["findings", "verdicts"],
+        "required": ["findings", "pii", "not_pii"],
     }
 
 
@@ -112,8 +110,8 @@ class Verdict:
 class LlmLayer:
     name = "llm"
 
-    def __init__(self, settings: Settings, client: httpx.Client | None = None):
-        self.cfg = settings.layers.llm
+    def __init__(self, settings: Settings, client: httpx.Client | None = None, **overrides):
+        self.cfg = settings.layers.llm.model_copy(update=overrides)
         self.client = client or httpx.Client(base_url=self.cfg.base_url, timeout=self.cfg.timeout_seconds)
         types = "\n".join(f"- {k}: {v}" for k, v in ENTITY_TYPES.items())
         self.system = SYSTEM_PROMPT.format(types=types)
@@ -150,14 +148,18 @@ class LlmLayer:
                     a, b = chunk.start + s, chunk.start + e
                     found.append(Span(a, b, f.get("type") or "OTHER_PII", self.cfg.score_found,
                                       {self.name}, text[a:b]))
-            for v in data.get("verdicts", []):
-                idx = v.get("id")
+            for key, is_pii in (("pii", True), ("not_pii", False)):
+                for idx in data.get(key) or []:
+                    if isinstance(idx, int) and 0 <= idx < len(local):
+                        verdicts.append(Verdict(local[idx], is_pii, None))
+            for v in data.get("verdicts") or []:  # older response shape
+                idx = v.get("id") if isinstance(v, dict) else None
                 if isinstance(idx, int) and 0 <= idx < len(local):
                     verdicts.append(Verdict(local[idx], bool(v.get("is_pii")), v.get("type")))
         return found, verdicts
 
     def _ask(self, text: str, candidates: list[Span], known: list[str], offset: int) -> dict:
-        items = "\n".join(f'{i}. "{c.text}" (suggested type {c.entity})' for i, c in enumerate(candidates))
+        items = "\n".join(f'{i}: "{c.text}" [{c.entity}]' for i, c in enumerate(candidates))
         user = USER_PROMPT.format(
             text=text,
             known_block=KNOWN_PROMPT.format(items="; ".join(f'"{k}"' for k in known)) if known else "",
@@ -172,6 +174,7 @@ class LlmLayer:
         }
         if self.cfg.disable_thinking:
             body["chat_template_kwargs"] = {"enable_thinking": False}
+        body.update(self.cfg.extra_body or {})
         last_err: Exception | None = None
         for attempt in range(self.cfg.max_retries + 1):
             if attempt:  # greedy decoding would repeat a degenerate answer verbatim
@@ -198,12 +201,15 @@ def _parse_json(content: str) -> dict:
     # truncated output (max_tokens hit, runaway list): keep every complete entry
     findings = [{"text": t, "type": y} for t, y in re.findall(
         r'\{\s*"text"\s*:\s*"((?:[^"\\]|\\.)*)"\s*,\s*"type"\s*:\s*"(\w+)"\s*\}', content)]
-    verdicts = [{"id": int(i), "is_pii": p == "true"} for i, p in re.findall(
-        r'\{\s*"id"\s*:\s*(\d+)\s*,\s*"is_pii"\s*:\s*(true|false)', content)]
-    if not findings and not verdicts:
+    out: dict = {"findings": findings}
+    for key in ("pii", "not_pii"):
+        m = re.search(rf'"{key}"\s*:\s*\[([\d,\s]*)', content)
+        out[key] = [int(x) for x in re.findall(r"\d+", m.group(1))] if m else []
+    if not findings and not out["pii"] and not out["not_pii"]:
         raise ValueError("no usable JSON in LLM response")
-    log.warning("LLM response was truncated; salvaged %d findings, %d verdicts", len(findings), len(verdicts))
-    return {"findings": findings, "verdicts": verdicts}
+    log.warning("LLM response was truncated; salvaged %d findings, %d verdicts",
+                len(findings), len(out["pii"]) + len(out["not_pii"]))
+    return out
 
 
 def _locate(text: str, needle: str) -> list[tuple[int, int]]:

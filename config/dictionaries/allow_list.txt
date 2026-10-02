@@ -98,3 +98,52 @@ Slack
 Zoom
 GitHub
 GitLab
+
+# --- coarse regions: a federal state or country does not identify a person ---
+Bayern
+Bavaria
+Baden-Württemberg
+Hessen
+Sachsen
+Thüringen
+Niedersachsen
+Nordrhein-Westfalen
+Rheinland-Pfalz
+Saarland
+Schleswig-Holstein
+Mecklenburg-Vorpommern
+Sachsen-Anhalt
+Deutschland
+Germany
+Österreich
+Austria
+Schweiz
+Switzerland
+Europa
+Europe
+EU
+
+# --- timesheet activity words (NER models tag them as names/places in table cells) ---
+Telefonat
+Exkursion
+Kartierung
+Datenauswertung
+Gutachten
+Bericht
+Antrag
+Pressearbeit
+Abstimmung
+Besprechung
+Recherche
+Dokumentation
+Vorbereitung
+Nachbereitung
+Fahrtzeit
+Reisezeit
+Survey
+Fieldwork
+Field trip
+Data analysis
+Proposal
+Press work
+Call

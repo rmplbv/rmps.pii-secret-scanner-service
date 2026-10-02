@@ -42,6 +42,11 @@ class DetectionParams(BaseModel):
     allow_list: list[str] = Field(default_factory=list, description="Terms never to redact")
     deny_list: list[str] = Field(default_factory=list, description="Terms always to redact (entity CUSTOM)")
     timesheet: TimesheetOverride | None = None
+    preset: Literal["auto", "general", "timesheet"] | None = Field(
+        None, description="auto: timesheet rules if the text looks like a timesheet; general: plain dates/times/"
+                          "durations are not PII. Default from config")
+    format: Literal["auto", "text", "html"] = Field(
+        "auto", description="html: only visible text and selected attributes are analysed; markup is kept")
 
 
 class AnalyzeRequest(DetectionParams):

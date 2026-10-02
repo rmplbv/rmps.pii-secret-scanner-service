@@ -4,12 +4,13 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import html
 import re
 from bisect import bisect_right
 from dataclasses import dataclass
 
 from ..config import Settings, Timesheet
-from ..models import TIMESHEET_FEATURE, Span
+from ..models import FAKE_FEATURE, Span
 from .fakers import FakeFactory
 from .session import SessionState
 
@@ -79,7 +80,7 @@ class Anonymizer:
         if op == "fake":
             if entity in self.cfg.no_fake_entities:
                 return "placeholder"
-            feature = TIMESHEET_FEATURE.get(entity)
+            feature = FAKE_FEATURE.get(entity)
             if feature and not getattr(ts, feature).fake:
                 return "placeholder"
         return op
@@ -129,6 +130,9 @@ def deanonymize(text: str, state: SessionState, person_tokens: bool = True) -> t
     for fake, orig in state.reverse.items():
         for v in (fake, fake.lower(), fake.upper(), fake.title()):
             variants.setdefault(v, orig)
+        escaped = html.escape(fake, quote=False)
+        if escaped != fake:  # placeholder inside HTML: "&lt;PERSON_1&gt;"
+            variants.setdefault(escaped, html.escape(orig, quote=False))
     if person_tokens:
         for fake_tok, orig_tok in state.token_reverse.items():
             if len(fake_tok) >= 3:

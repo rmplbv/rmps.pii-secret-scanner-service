@@ -21,7 +21,7 @@ def test_findings_are_grounded_and_hallucinations_dropped(settings):
     payload = {"findings": [{"text": "jsmith88", "type": "USERNAME"},
                             {"text": "kowalski", "type": "PERSON"},          # case differs -> still located
                             {"text": "Erika Mustermann", "type": "PERSON"}],  # not in text -> dropped
-               "verdicts": []}
+               "pii": [], "not_pii": []}
     calls = []
     found, verdicts = make_layer(settings, payload, calls).detect(text)
     assert sorted(s.text for s in found) == ["Kowalski", "jsmith88"]
@@ -33,11 +33,11 @@ def test_verdicts_and_known_list(settings):
     cand = Span(11, 15, "ORGANIZATION", 0.4, {"spacy"}, "Acme")
     known = Span(19, 25, "DATE_TIME", 0.9, {"patterns"}, "Montag")
     calls = []
-    layer = make_layer(settings, {"findings": [], "verdicts": [{"id": 0, "is_pii": True, "type": "ORGANIZATION"}]}, calls)
+    layer = make_layer(settings, {"findings": [], "pii": [0], "not_pii": []}, calls)
     found, verdicts = layer.detect(text, [cand], [known])
     assert verdicts[0].is_pii and verdicts[0].span is cand
     prompt = calls[0]["messages"][1]["content"]
-    assert '"Montag"' in prompt and '0. "Acme"' in prompt
+    assert '"Montag"' in prompt and '0: "Acme"' in prompt
 
 
 def test_locate_short_needles_need_word_boundaries():
@@ -57,7 +57,7 @@ def test_llm_errors_are_skipped_with_warning(settings):
 def test_truncated_json_is_salvaged():
     from app.detection.llm_layer import _parse_json
     raw = '{"findings": [{"text": "Kowalski", "type": "PERSON"}, {"text": "jsm'
-    assert _parse_json(raw) == {"findings": [{"text": "Kowalski", "type": "PERSON"}], "verdicts": []}
+    assert _parse_json(raw) == {"findings": [{"text": "Kowalski", "type": "PERSON"}], "pii": [], "not_pii": []}
 
 
 def test_llm_cannot_veto_pattern_matches(settings, monkeypatch):

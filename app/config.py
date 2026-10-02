@@ -65,7 +65,9 @@ class LlmLayer(_Model):
     temperature: float = 0.0
     adjudicate_range: tuple[float, float] = (0.25, 0.75)
     score_found: float = 0.75
+    max_candidates: int = 60          # uncertain spans sent for a verdict per document (output cost)
     disable_thinking: bool = True
+    extra_body: dict[str, Any] = {}   # merged into every request (e.g. reasoning_effort, chat_template_kwargs)
     max_retries: int = 2
     on_error: str = "skip"   # skip: keep other layers' results for the chunk and warn | fail: fail the job
 
@@ -89,6 +91,7 @@ class Dictionaries(_Model):
     project_names: str | None = None
     special_category: str | None = None
     allow_list: str | None = None
+    species: str | None = None
     fake_project_words: str = "app/data/fake/project_words.yaml"
 
 
@@ -147,6 +150,11 @@ class Timesheet(_Model):
         return Timesheet.model_validate(data)
 
 
+class Html(_Model):
+    attributes: list[str] = ["href", "title", "alt", "value", "placeholder", "content", "aria-label"]
+    skip_elements: list[str] = ["script", "style", "noscript", "template", "svg"]
+
+
 class Vault(_Model):
     key_env: str = "PII_VAULT_KEY"
     session_ttl_seconds: int = 30 * 24 * 3600
@@ -166,6 +174,9 @@ class Settings(_Model):
     dictionaries: Dictionaries = Dictionaries()
     anonymize: Anonymize = Anonymize()
     timesheet: Timesheet = Timesheet()
+    default_preset: str = "auto"
+    presets: dict[str, dict[str, dict[str, Any]]] = {"general": {}, "timesheet": {}}
+    html: Html = Html()
     vault: Vault = Vault()
     raw: dict[str, Any] = Field(default_factory=dict, exclude=True)
 
@@ -174,6 +185,11 @@ class Settings(_Model):
             return None
         p = Path(rel)
         return p if p.is_absolute() else ROOT / p
+
+    def timesheet_for(self, preset: str, override: dict[str, Any] | None = None) -> Timesheet:
+        """Timesheet switches for a resolved preset ("general"/"timesheet"), then the request override."""
+        ts = self.timesheet.merged(self.presets.get(preset) or None)
+        return ts.merged(override)
 
     def queue_for(self, profile: str) -> str:
         return self.queues.get(profile, "pii:full")

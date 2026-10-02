@@ -1,0 +1,2470 @@
+# Species allow list: animal, plant and fungus names plus nature-conservation
+# vocabulary that must NOT be redacted as PII. NER models frequently mis-tag
+# species names as PERSON / LOCATION / ORGANIZATION (e.g. "Kiebitz" -> LOCATION,
+# "Lapwing" -> PERSON); entries here suppress those false positives.
+#
+# Format:
+#   - One name per line; multi-word names are allowed
+#     (e.g. "Großer Brachvogel", "Eurasian Curlew", "Numenius arquata").
+#   - Matching is case-insensitive on the WHOLE detected span.
+#   - Lines starting with "~" mark names that are ALSO common surnames or given
+#     names (e.g. ~Fink, ~Specht, ~Adler, ~Wolf, ~Robin, ~Martin, ~Swift).
+#     For these the service will NOT suppress PERSON detections; LOCATION /
+#     ORGANIZATION false positives are still suppressed.
+#   - Lines starting with "#" are comments; "# --- ... ---" lines group sections.
+#   - Blank lines are ignored.
+#   - No duplicates (case-insensitive).
+#
+# Deliberately excluded: real place names (e.g. regions, lakes, moors, towns
+# that share a name with a species or tree). Places can identify where people
+# live or work and must stay detectable.
+
+# --- 1 Vögel / birds: Entenvögel / waterfowl ---
+Höckerschwan
+Mute Swan
+Cygnus olor
+Singschwan
+Whooper Swan
+Cygnus cygnus
+Zwergschwan
+Bewick's Swan
+Cygnus columbianus
+Saatgans
+Taiga Bean Goose
+Anser fabalis
+Tundrasaatgans
+Tundra Bean Goose
+Anser serrirostris
+Kurzschnabelgans
+Pink-footed Goose
+Anser brachyrhynchus
+Blässgans
+Greater White-fronted Goose
+Anser albifrons
+Zwerggans
+Lesser White-fronted Goose
+Anser erythropus
+Graugans
+Greylag Goose
+Anser anser
+Kanadagans
+Canada Goose
+Branta canadensis
+Weißwangengans
+Barnacle Goose
+Branta leucopsis
+Ringelgans
+Brent Goose
+Branta bernicla
+Rothalsgans
+Red-breasted Goose
+Branta ruficollis
+Nilgans
+Egyptian Goose
+Alopochen aegyptiaca
+Brandgans
+Common Shelduck
+Tadorna tadorna
+Rostgans
+Ruddy Shelduck
+Tadorna ferruginea
+Mandarinente
+Mandarin Duck
+Aix galericulata
+Pfeifente
+Eurasian Wigeon
+Mareca penelope
+Schnatterente
+Gadwall
+Mareca strepera
+Krickente
+Eurasian Teal
+Anas crecca
+Stockente
+~Mallard
+Anas platyrhynchos
+Spießente
+Northern Pintail
+Anas acuta
+Knäkente
+Garganey
+Spatula querquedula
+Löffelente
+Northern Shoveler
+Spatula clypeata
+Kolbenente
+Red-crested Pochard
+Netta rufina
+Tafelente
+Common Pochard
+Aythya ferina
+Moorente
+Ferruginous Duck
+Aythya nyroca
+Reiherente
+Tufted Duck
+Aythya fuligula
+Bergente
+Greater Scaup
+Aythya marila
+Eiderente
+Common Eider
+Somateria mollissima
+Eisente
+Long-tailed Duck
+Clangula hyemalis
+Trauerente
+Common Scoter
+Melanitta nigra
+Samtente
+Velvet Scoter
+Melanitta fusca
+Schellente
+Common Goldeneye
+Bucephala clangula
+Zwergsäger
+Smew
+Mergellus albellus
+Mittelsäger
+Red-breasted Merganser
+Mergus serrator
+Gänsesäger
+Goosander
+Mergus merganser
+Common Merganser
+
+# --- 1 Vögel / birds: Hühnervögel, Seetaucher, Lappentaucher, Hochseevögel ---
+Haselhuhn
+Hazel Grouse
+Tetrastes bonasia
+Alpenschneehuhn
+Rock Ptarmigan
+Lagopus muta
+Birkhuhn
+Black Grouse
+Lyrurus tetrix
+Auerhuhn
+Western Capercaillie
+Tetrao urogallus
+Rebhuhn
+Grey Partridge
+Perdix perdix
+~Wachtel
+Common Quail
+Coturnix coturnix
+Fasan
+Common Pheasant
+Phasianus colchicus
+Steinhuhn
+Rock Partridge
+Alectoris graeca
+Rothuhn
+Red-legged Partridge
+Alectoris rufa
+Sterntaucher
+Red-throated Loon
+Gavia stellata
+Red-throated Diver
+Prachttaucher
+Black-throated Loon
+Gavia arctica
+Black-throated Diver
+Eistaucher
+Great Northern Loon
+Gavia immer
+Zwergtaucher
+Little Grebe
+Tachybaptus ruficollis
+Haubentaucher
+Great Crested Grebe
+Podiceps cristatus
+Rothalstaucher
+Red-necked Grebe
+Podiceps grisegena
+Ohrentaucher
+Horned Grebe
+Podiceps auritus
+Slavonian Grebe
+Schwarzhalstaucher
+Black-necked Grebe
+Podiceps nigricollis
+Eissturmvogel
+Northern Fulmar
+Fulmarus glacialis
+Sturmschwalbe
+European Storm Petrel
+Hydrobates pelagicus
+Wellenläufer
+Leach's Storm Petrel
+Hydrobates leucorhous
+Basstölpel
+Northern Gannet
+Morus bassanus
+Kormoran
+Great Cormorant
+Phalacrocorax carbo
+Zwergscharbe
+Pygmy Cormorant
+Microcarbo pygmaeus
+
+# --- 1 Vögel / birds: Reiher, Störche, Ibisse ---
+Rohrdommel
+Eurasian Bittern
+Botaurus stellaris
+Zwergdommel
+Little Bittern
+Ixobrychus minutus
+Nachtreiher
+Black-crowned Night Heron
+Nycticorax nycticorax
+Rallenreiher
+Squacco Heron
+Ardeola ralloides
+Kuhreiher
+Western Cattle Egret
+Bubulcus ibis
+Seidenreiher
+Little Egret
+Egretta garzetta
+Silberreiher
+Great Egret
+Ardea alba
+Graureiher
+Grey Heron
+Ardea cinerea
+Purpurreiher
+Purple Heron
+Ardea purpurea
+Schwarzstorch
+Black Stork
+Ciconia nigra
+Weißstorch
+White Stork
+Ciconia ciconia
+~Löffler
+Eurasian Spoonbill
+Platalea leucorodia
+~Sichler
+Glossy Ibis
+Plegadis falcinellus
+Waldrapp
+Northern Bald Ibis
+Geronticus eremita
+
+# --- 1 Vögel / birds: Greifvögel und Falken / raptors ---
+Wespenbussard
+European Honey Buzzard
+Pernis apivorus
+Gleitaar
+Black-winged Kite
+Elanus caeruleus
+Schwarzmilan
+Black Kite
+Milvus migrans
+Rotmilan
+Red Kite
+Milvus milvus
+Seeadler
+White-tailed Eagle
+Haliaeetus albicilla
+Bartgeier
+Bearded Vulture
+Gypaetus barbatus
+Lammergeier
+Gänsegeier
+Griffon Vulture
+Gyps fulvus
+Mönchsgeier
+Cinereous Vulture
+Aegypius monachus
+Schlangenadler
+Short-toed Snake Eagle
+Circaetus gallicus
+Rohrweihe
+Western Marsh Harrier
+Circus aeruginosus
+Kornweihe
+Hen Harrier
+Circus cyaneus
+Steppenweihe
+Pallid Harrier
+Circus macrourus
+Wiesenweihe
+Montagu's Harrier
+Circus pygargus
+~Habicht
+Northern Goshawk
+Accipiter gentilis
+Goshawk
+~Sperber
+Eurasian Sparrowhawk
+Accipiter nisus
+Sparrowhawk
+Mäusebussard
+Common Buzzard
+Buteo buteo
+Raufußbussard
+Rough-legged Buzzard
+Buteo lagopus
+Adlerbussard
+Long-legged Buzzard
+Buteo rufinus
+Schreiadler
+Lesser Spotted Eagle
+Clanga pomarina
+Schelladler
+Greater Spotted Eagle
+Clanga clanga
+Kaiseradler
+Eastern Imperial Eagle
+Aquila heliaca
+Steinadler
+Golden Eagle
+Aquila chrysaetos
+Zwergadler
+Booted Eagle
+Hieraaetus pennatus
+Fischadler
+Western Osprey
+Pandion haliaetus
+Osprey
+Rötelfalke
+Lesser Kestrel
+Falco naumanni
+Turmfalke
+Common Kestrel
+Falco tinnunculus
+Kestrel
+Rotfußfalke
+Red-footed Falcon
+Falco vespertinus
+~Merlin
+Falco columbarius
+Baumfalke
+Eurasian Hobby
+Falco subbuteo
+Würgfalke
+Saker Falcon
+Falco cherrug
+Gerfalke
+Gyrfalcon
+Falco rusticolus
+Wanderfalke
+Peregrine Falcon
+Falco peregrinus
+Peregrine
+
+# --- 1 Vögel / birds: Kraniche, Rallen, Trappen ---
+~Kranich
+Common Crane
+Grus grus
+Wasserralle
+Water Rail
+Rallus aquaticus
+Wachtelkönig
+Corn Crake
+Crex crex
+Corncrake
+Tüpfelsumpfhuhn
+Spotted Crake
+Porzana porzana
+Kleines Sumpfhuhn
+Little Crake
+Zapornia parva
+Zwergsumpfhuhn
+Baillon's Crake
+Zapornia pusilla
+Teichhuhn
+Common Moorhen
+Gallinula chloropus
+Blässhuhn
+Eurasian Coot
+Fulica atra
+Großtrappe
+Great Bustard
+Otis tarda
+
+# --- 1 Vögel / birds: Limikolen / waders ---
+Austernfischer
+Eurasian Oystercatcher
+Haematopus ostralegus
+Stelzenläufer
+Black-winged Stilt
+Himantopus himantopus
+Säbelschnäbler
+Pied Avocet
+Recurvirostra avosetta
+Triel
+Eurasian Stone-curlew
+Burhinus oedicnemus
+Flussregenpfeifer
+Little Ringed Plover
+Charadrius dubius
+Sandregenpfeifer
+Common Ringed Plover
+Charadrius hiaticula
+Seeregenpfeifer
+Kentish Plover
+Charadrius alexandrinus
+Mornellregenpfeifer
+Eurasian Dotterel
+Charadrius morinellus
+Goldregenpfeifer
+European Golden Plover
+Pluvialis apricaria
+Kiebitzregenpfeifer
+Grey Plover
+Pluvialis squatarola
+Kiebitz
+Northern Lapwing
+Vanellus vanellus
+Lapwing
+Knutt
+Red Knot
+Calidris canutus
+Sanderling
+Calidris alba
+Zwergstrandläufer
+Little Stint
+Calidris minuta
+Temminckstrandläufer
+Temminck's Stint
+Calidris temminckii
+Sichelstrandläufer
+Curlew Sandpiper
+Calidris ferruginea
+Meerstrandläufer
+Purple Sandpiper
+Calidris maritima
+Alpenstrandläufer
+Dunlin
+Calidris alpina
+Sumpfläufer
+Broad-billed Sandpiper
+Calidris falcinellus
+Kampfläufer
+~Ruff
+Calidris pugnax
+Zwergschnepfe
+Jack Snipe
+Lymnocryptes minimus
+Bekassine
+Common Snipe
+Gallinago gallinago
+Doppelschnepfe
+Great Snipe
+Gallinago media
+Waldschnepfe
+Eurasian Woodcock
+Scolopax rusticola
+~Woodcock
+Uferschnepfe
+Black-tailed Godwit
+Limosa limosa
+Pfuhlschnepfe
+Bar-tailed Godwit
+Limosa lapponica
+Regenbrachvogel
+Whimbrel
+Numenius phaeopus
+Großer Brachvogel
+Eurasian Curlew
+Numenius arquata
+Brachvogel
+Curlew
+Dunkler Wasserläufer
+Spotted Redshank
+Tringa erythropus
+Rotschenkel
+Common Redshank
+Tringa totanus
+Teichwasserläufer
+Marsh Sandpiper
+Tringa stagnatilis
+Grünschenkel
+Common Greenshank
+Tringa nebularia
+Waldwasserläufer
+Green Sandpiper
+Tringa ochropus
+Bruchwasserläufer
+Wood Sandpiper
+Tringa glareola
+Flussuferläufer
+Common Sandpiper
+Actitis hypoleucos
+Steinwälzer
+Ruddy Turnstone
+Arenaria interpres
+Odinshühnchen
+Red-necked Phalarope
+Phalaropus lobatus
+Thorshühnchen
+Red Phalarope
+Phalaropus fulicarius
+Grey Phalarope
+
+# --- 1 Vögel / birds: Raubmöwen, Möwen, Seeschwalben, Alken ---
+Spatelraubmöwe
+Pomarine Skua
+Stercorarius pomarinus
+Schmarotzerraubmöwe
+Arctic Skua
+Stercorarius parasiticus
+Falkenraubmöwe
+Long-tailed Skua
+Stercorarius longicaudus
+Skua
+Great Skua
+Stercorarius skua
+Dreizehenmöwe
+Black-legged Kittiwake
+Rissa tridactyla
+Kittiwake
+Zwergmöwe
+Little Gull
+Hydrocoloeus minutus
+Lachmöwe
+Black-headed Gull
+Chroicocephalus ridibundus
+Schwarzkopfmöwe
+Mediterranean Gull
+Ichthyaetus melanocephalus
+Sturmmöwe
+Common Gull
+Larus canus
+Mew Gull
+Heringsmöwe
+Lesser Black-backed Gull
+Larus fuscus
+Silbermöwe
+European Herring Gull
+Larus argentatus
+Mittelmeermöwe
+Yellow-legged Gull
+Larus michahellis
+Steppenmöwe
+Caspian Gull
+Larus cachinnans
+Mantelmöwe
+Great Black-backed Gull
+Larus marinus
+Polarmöwe
+Iceland Gull
+Larus glaucoides
+Eismöwe
+Glaucous Gull
+Larus hyperboreus
+Zwergseeschwalbe
+Little Tern
+Sternula albifrons
+Lachseeschwalbe
+Gull-billed Tern
+Gelochelidon nilotica
+Raubseeschwalbe
+Caspian Tern
+Hydroprogne caspia
+Weißbart-Seeschwalbe
+Whiskered Tern
+Chlidonias hybrida
+Weißflügel-Seeschwalbe
+White-winged Tern
+Chlidonias leucopterus
+Trauerseeschwalbe
+Black Tern
+Chlidonias niger
+Brandseeschwalbe
+Sandwich Tern
+Thalasseus sandvicensis
+Flussseeschwalbe
+Common Tern
+Sterna hirundo
+Küstenseeschwalbe
+Arctic Tern
+Sterna paradisaea
+Trottellumme
+Common Guillemot
+Uria aalge
+~Guillemot
+Tordalk
+Razorbill
+Alca torda
+Gryllteiste
+Black Guillemot
+Cepphus grylle
+Papageitaucher
+Atlantic Puffin
+Fratercula arctica
+Puffin
+
+# --- 1 Vögel / birds: Tauben, Kuckucke, Eulen, Segler, Rackenvögel, Spechte ---
+Felsentaube
+Rock Dove
+Columba livia
+Straßentaube
+Feral Pigeon
+Columba livia domestica
+Stadttaube
+Hohltaube
+Stock Dove
+Columba oenas
+Ringeltaube
+Common Wood Pigeon
+Columba palumbus
+Wood Pigeon
+Turteltaube
+European Turtle Dove
+Streptopelia turtur
+Turtle Dove
+Türkentaube
+Eurasian Collared Dove
+Streptopelia decaocto
+Collared Dove
+Halsbandsittich
+Rose-ringed Parakeet
+Psittacula krameri
+~Kuckuck
+Common Cuckoo
+Cuculus canorus
+Schleiereule
+Western Barn Owl
+Tyto alba
+Barn Owl
+Zwergohreule
+Eurasian Scops Owl
+Otus scops
+Uhu
+Eurasian Eagle-Owl
+Bubo bubo
+Eagle Owl
+Schneeeule
+Snowy Owl
+Bubo scandiacus
+Sperlingskauz
+Eurasian Pygmy Owl
+Glaucidium passerinum
+Steinkauz
+Little Owl
+Athene noctua
+Waldkauz
+Tawny Owl
+Strix aluco
+Habichtskauz
+Ural Owl
+Strix uralensis
+Waldohreule
+Long-eared Owl
+Asio otus
+Sumpfohreule
+Short-eared Owl
+Asio flammeus
+Raufußkauz
+Boreal Owl
+Aegolius funereus
+Tengmalm's Owl
+Ziegenmelker
+European Nightjar
+Caprimulgus europaeus
+Nachtschwalbe
+Mauersegler
+Common Swift
+Apus apus
+Alpensegler
+Alpine Swift
+Tachymarptis melba
+Eisvogel
+Common Kingfisher
+Alcedo atthis
+Bienenfresser
+European Bee-eater
+Merops apiaster
+Blauracke
+European Roller
+Coracias garrulus
+Wiedehopf
+Eurasian Hoopoe
+Upupa epops
+Hoopoe
+Wendehals
+Eurasian Wryneck
+Jynx torquilla
+Grauspecht
+Grey-headed Woodpecker
+Picus canus
+Grünspecht
+European Green Woodpecker
+Picus viridis
+Schwarzspecht
+Black Woodpecker
+Dryocopus martius
+Buntspecht
+Great Spotted Woodpecker
+Dendrocopos major
+Blutspecht
+Syrian Woodpecker
+Dendrocopos syriacus
+Mittelspecht
+Middle Spotted Woodpecker
+Dendrocoptes medius
+Weißrückenspecht
+White-backed Woodpecker
+Dendrocopos leucotos
+Kleinspecht
+Lesser Spotted Woodpecker
+Dryobates minor
+Dreizehenspecht
+Eurasian Three-toed Woodpecker
+Picoides tridactylus
+
+# --- 1 Vögel / birds: Singvögel / passerines ---
+Haubenlerche
+Crested Lark
+Galerida cristata
+Heidelerche
+Woodlark
+Lullula arborea
+Feldlerche
+Eurasian Skylark
+Alauda arvensis
+Skylark
+Ohrenlerche
+Horned Lark
+Eremophila alpestris
+Shore Lark
+Uferschwalbe
+Sand Martin
+Riparia riparia
+Felsenschwalbe
+Eurasian Crag Martin
+Ptyonoprogne rupestris
+Rauchschwalbe
+Barn Swallow
+Hirundo rustica
+Mehlschwalbe
+Common House Martin
+Delichon urbicum
+House Martin
+Spornpieper
+Richard's Pipit
+Anthus richardi
+Brachpieper
+Tawny Pipit
+Anthus campestris
+Baumpieper
+Tree Pipit
+Anthus trivialis
+Wiesenpieper
+Meadow Pipit
+Anthus pratensis
+Rotkehlpieper
+Red-throated Pipit
+Anthus cervinus
+Bergpieper
+Water Pipit
+Anthus spinoletta
+Strandpieper
+Eurasian Rock Pipit
+Anthus petrosus
+Schafstelze
+Western Yellow Wagtail
+Motacilla flava
+Gebirgsstelze
+Grey Wagtail
+Motacilla cinerea
+Bachstelze
+White Wagtail
+Motacilla alba
+Seidenschwanz
+Bohemian Waxwing
+Bombycilla garrulus
+Waxwing
+Wasseramsel
+White-throated Dipper
+Cinclus cinclus
+Zaunkönig
+Eurasian Wren
+Troglodytes troglodytes
+Heckenbraunelle
+Dunnock
+Prunella modularis
+Alpenbraunelle
+Alpine Accentor
+Prunella collaris
+Rotkehlchen
+European Robin
+Erithacus rubecula
+Sprosser
+Thrush Nightingale
+Luscinia luscinia
+~Nachtigall
+Common Nightingale
+Luscinia megarhynchos
+Blaukehlchen
+Bluethroat
+Luscinia svecica
+Hausrotschwanz
+Black Redstart
+Phoenicurus ochruros
+Gartenrotschwanz
+Common Redstart
+Phoenicurus phoenicurus
+Braunkehlchen
+Whinchat
+Saxicola rubetra
+Schwarzkehlchen
+European Stonechat
+Saxicola rubicola
+Steinschmätzer
+Northern Wheatear
+Oenanthe oenanthe
+Steinrötel
+Common Rock Thrush
+Monticola saxatilis
+Ringdrossel
+Ring Ouzel
+Turdus torquatus
+~Amsel
+Common Blackbird
+Turdus merula
+Schwarzdrossel
+Wacholderdrossel
+Fieldfare
+Turdus pilaris
+Singdrossel
+Song Thrush
+Turdus philomelos
+Rotdrossel
+Redwing
+Turdus iliacus
+Misteldrossel
+Mistle Thrush
+Turdus viscivorus
+Cettisänger
+Cetti's Warbler
+Cettia cetti
+Zistensänger
+Zitting Cisticola
+Cisticola juncidis
+Feldschwirl
+Common Grasshopper Warbler
+Locustella naevia
+Schlagschwirl
+River Warbler
+Locustella fluviatilis
+Rohrschwirl
+Savi's Warbler
+Locustella luscinioides
+Mariskensänger
+Moustached Warbler
+Acrocephalus melanopogon
+Seggenrohrsänger
+Aquatic Warbler
+Acrocephalus paludicola
+Schilfrohrsänger
+Sedge Warbler
+Acrocephalus schoenobaenus
+Sumpfrohrsänger
+Marsh Warbler
+Acrocephalus palustris
+Teichrohrsänger
+Eurasian Reed Warbler
+Acrocephalus scirpaceus
+Drosselrohrsänger
+Great Reed Warbler
+Acrocephalus arundinaceus
+Gelbspötter
+Icterine Warbler
+Hippolais icterina
+Orpheusspötter
+Melodious Warbler
+Hippolais polyglotta
+Sperbergrasmücke
+Barred Warbler
+Curruca nisoria
+Klappergrasmücke
+Lesser Whitethroat
+Curruca curruca
+Dorngrasmücke
+Common Whitethroat
+Curruca communis
+Gartengrasmücke
+Garden Warbler
+Sylvia borin
+Mönchsgrasmücke
+Eurasian Blackcap
+Sylvia atricapilla
+Blackcap
+Berglaubsänger
+Western Bonelli's Warbler
+Phylloscopus bonelli
+Waldlaubsänger
+Wood Warbler
+Phylloscopus sibilatrix
+Zilpzalp
+Common Chiffchaff
+Phylloscopus collybita
+Chiffchaff
+Fitis
+Willow Warbler
+Phylloscopus trochilus
+Grünlaubsänger
+Greenish Warbler
+Phylloscopus trochiloides
+Gelbbrauen-Laubsänger
+Yellow-browed Warbler
+Phylloscopus inornatus
+Wintergoldhähnchen
+Goldcrest
+Regulus regulus
+Sommergoldhähnchen
+Common Firecrest
+Regulus ignicapilla
+Firecrest
+Grauschnäpper
+Spotted Flycatcher
+Muscicapa striata
+Zwergschnäpper
+Red-breasted Flycatcher
+Ficedula parva
+Halsbandschnäpper
+Collared Flycatcher
+Ficedula albicollis
+Trauerschnäpper
+European Pied Flycatcher
+Ficedula hypoleuca
+Pied Flycatcher
+Bartmeise
+Bearded Reedling
+Panurus biarmicus
+Bearded Tit
+Schwanzmeise
+Long-tailed Tit
+Aegithalos caudatus
+Sumpfmeise
+Marsh Tit
+Poecile palustris
+Weidenmeise
+Willow Tit
+Poecile montanus
+Haubenmeise
+European Crested Tit
+Lophophanes cristatus
+Crested Tit
+Tannenmeise
+Coal Tit
+Periparus ater
+Blaumeise
+Eurasian Blue Tit
+Cyanistes caeruleus
+Blue Tit
+Kohlmeise
+Great Tit
+Parus major
+~Kleiber
+Eurasian Nuthatch
+Sitta europaea
+Nuthatch
+Mauerläufer
+Wallcreeper
+Tichodroma muraria
+Waldbaumläufer
+Eurasian Treecreeper
+Certhia familiaris
+Treecreeper
+Gartenbaumläufer
+Short-toed Treecreeper
+Certhia brachydactyla
+Beutelmeise
+Eurasian Penduline Tit
+Remiz pendulinus
+Penduline Tit
+Pirol
+Eurasian Golden Oriole
+Oriolus oriolus
+Golden Oriole
+Neuntöter
+Red-backed Shrike
+Lanius collurio
+Rotrückenwürger
+Schwarzstirnwürger
+Lesser Grey Shrike
+Lanius minor
+Raubwürger
+Great Grey Shrike
+Lanius excubitor
+Rotkopfwürger
+Woodchat Shrike
+Lanius senator
+Eichelhäher
+Eurasian Jay
+Garrulus glandarius
+~Elster
+Eurasian Magpie
+Pica pica
+Magpie
+Tannenhäher
+Spotted Nutcracker
+Nucifraga caryocatactes
+Nutcracker
+Alpendohle
+Alpine Chough
+Pyrrhocorax graculus
+~Dohle
+Western Jackdaw
+Coloeus monedula
+Jackdaw
+Saatkrähe
+~Rook
+Corvus frugilegus
+Rabenkrähe
+Carrion Crow
+Corvus corone
+Nebelkrähe
+Hooded Crow
+Corvus cornix
+Kolkrabe
+Northern Raven
+Corvus corax
+Common Raven
+~Star
+Common Starling
+Sturnus vulgaris
+~Starling
+Rosenstar
+Rosy Starling
+Pastor roseus
+Haussperling
+House Sparrow
+Passer domesticus
+Feldsperling
+Eurasian Tree Sparrow
+Passer montanus
+Tree Sparrow
+Schneesperling
+White-winged Snowfinch
+Montifringilla nivalis
+Snowfinch
+Buchfink
+Common Chaffinch
+Fringilla coelebs
+Chaffinch
+Bergfink
+Brambling
+Fringilla montifringilla
+Girlitz
+European Serin
+Serinus serinus
+Zitronenzeisig
+Citril Finch
+Carduelis citrinella
+Grünfink
+European Greenfinch
+Chloris chloris
+Greenfinch
+Grünling
+~Stieglitz
+European Goldfinch
+Carduelis carduelis
+Distelfink
+~Goldfinch
+Erlenzeisig
+Eurasian Siskin
+Spinus spinus
+Siskin
+Bluthänfling
+Common Linnet
+Linaria cannabina
+~Linnet
+Berghänfling
+Twite
+Linaria flavirostris
+Taigabirkenzeisig
+Common Redpoll
+Acanthis flammea
+Alpenbirkenzeisig
+Lesser Redpoll
+Acanthis cabaret
+Birkenzeisig
+Karmingimpel
+Common Rosefinch
+Carpodacus erythrinus
+Fichtenkreuzschnabel
+Red Crossbill
+Loxia curvirostra
+Bindenkreuzschnabel
+Two-barred Crossbill
+Loxia leucoptera
+~Gimpel
+Eurasian Bullfinch
+Pyrrhula pyrrhula
+Dompfaff
+~Bullfinch
+Kernbeißer
+Hawfinch
+Coccothraustes coccothraustes
+Spornammer
+Lapland Longspur
+Calcarius lapponicus
+Lapland Bunting
+Schneeammer
+Snow Bunting
+Plectrophenax nivalis
+Grauammer
+Corn Bunting
+Emberiza calandra
+Goldammer
+Yellowhammer
+Emberiza citrinella
+Zippammer
+Rock Bunting
+Emberiza cia
+Zaunammer
+Cirl Bunting
+Emberiza cirlus
+Ortolan
+Ortolan Bunting
+Emberiza hortulana
+Rohrammer
+Common Reed Bunting
+Emberiza schoeniclus
+Reed Bunting
+Zwergammer
+Little Bunting
+Emberiza pusilla
+
+# --- 1 Vögel / birds: Gruppennamen und Kurzformen / group names ---
+~Vogel
+Vögel
+Singvogel
+Singvögel
+Greifvogel
+Greifvögel
+~Eule
+Eulen
+~Kauz
+Käuze
+~Meise
+Meisen
+~Specht
+Spechte
+Möwe
+Möwen
+Seeschwalbe
+Seeschwalben
+Raubmöwe
+Limikole
+Limikolen
+Watvogel
+Watvögel
+Wasservogel
+Wasservögel
+Entenvögel
+~Ente
+Enten
+~Gans
+Gänse
+~Schwan
+Schwäne
+~Taucher
+Lappentaucher
+Seetaucher
+~Reiher
+~Storch
+Störche
+~Adler
+~Falke
+~Falk
+Falken
+Bussard
+~Milan
+Weihe
+~Geier
+~Rabe
+Raben
+~Krähe
+Krähen
+Rabenvögel
+Häher
+~Drossel
+Drosseln
+~Fink
+~Finken
+~Ammer
+Ammern
+~Lerche
+Lerchen
+~Schwalbe
+Schwalben
+Grasmücke
+Grasmücken
+Laubsänger
+Rohrsänger
+~Pieper
+Stelze
+Würger
+~Sperling
+~Spatz
+Spatzen
+~Taube
+Tauben
+~Hahn
+~Huhn
+Hühnervögel
+Raufußhühner
+~Strauß
+~Pfau
+Schnepfe
+Regenpfeifer
+Strandläufer
+Wasserläufer
+Ralle
+Rallen
+Säger
+Sumpfhuhn
+Rotschwanz
+Goldhähnchen
+Baumläufer
+Schnäpper
+Segler
+~Zeisig
+~Hänfling
+Zugvogel
+Zugvögel
+Brutvogel
+Brutvögel
+Gastvogel
+Wintergast
+Wintergäste
+Standvogel
+Teilzieher
+Langstreckenzieher
+Kurzstreckenzieher
+Höhlenbrüter
+Bodenbrüter
+Wiesenbrüter
+Koloniebrüter
+Gebäudebrüter
+Freibrüter
+Nestling
+Jungvogel
+Altvogel
+~bird
+birds
+songbird
+passerine
+warbler
+tit
+woodpecker
+raptor
+bird of prey
+birds of prey
+owl
+gull
+tern
+wader
+waders
+shorebird
+waterbird
+waterfowl
+wildfowl
+duck
+goose
+~swan
+~heron
+egret
+bittern
+~stork
+eagle
+falcon
+~hawk
+~kite
+harrier
+buzzard
+vulture
+~crow
+corvid
+~finch
+~bunting
+~sparrow
+thrush
+~lark
+~swallow
+~martin
+~swift
+pipit
+wagtail
+grebe
+diver
+loon
+cormorant
+plover
+sandpiper
+snipe
+godwit
+rail
+crake
+grouse
+~partridge
+pheasant
+pigeon
+~dove
+cuckoo
+nightjar
+kingfisher
+flycatcher
+shrike
+crossbill
+redstart
+chat
+~wren
+~robin
+~jay
+~raven
+~drake
+~peacock
+~nightingale
+~crane
+migrant bird
+breeding bird
+winter visitor
+~teal
+~roller
+
+# --- 2 Säugetiere / mammals ---
+~Wolf
+Grey Wolf
+Canis lupus
+~Wolfe
+~Luchs
+Eurasian Lynx
+Lynx lynx
+Wildkatze
+European Wildcat
+Felis silvestris
+Braunbär
+Brown Bear
+Ursus arctos
+~Bär
+~Bear
+Rotfuchs
+Red Fox
+Vulpes vulpes
+~Fuchs
+~Fox
+Goldschakal
+Golden Jackal
+Canis aureus
+~Dachs
+European Badger
+Meles meles
+Fischotter
+Eurasian Otter
+Lutra lutra
+~Otter
+Baummarder
+European Pine Marten
+Martes martes
+~Marder
+Steinmarder
+Beech Marten
+Martes foina
+Iltis
+European Polecat
+Mustela putorius
+Hermelin
+Stoat
+Mustela erminea
+Mauswiesel
+Least Weasel
+Mustela nivalis
+~Wiesel
+~Biber
+Eurasian Beaver
+Castor fiber
+Feldhase
+European Hare
+Lepus europaeus
+~Hase
+~Hare
+Schneehase
+Mountain Hare
+Lepus timidus
+Wildkaninchen
+European Rabbit
+Oryctolagus cuniculus
+Eichhörnchen
+Red Squirrel
+Sciurus vulgaris
+Feldhamster
+European Hamster
+Cricetus cricetus
+Haselmaus
+Hazel Dormouse
+Muscardinus avellanarius
+Siebenschläfer
+Edible Dormouse
+Glis glis
+Gartenschläfer
+Garden Dormouse
+Eliomys quercinus
+Alpenmurmeltier
+Alpine Marmot
+Marmota marmota
+Murmeltier
+Ziesel
+European Ground Squirrel
+Spermophilus citellus
+Braunbrustigel
+European Hedgehog
+Erinaceus europaeus
+~Igel
+Hedgehog
+Maulwurf
+European Mole
+Talpa europaea
+Wasserspitzmaus
+Eurasian Water Shrew
+Neomys fodiens
+Waldspitzmaus
+Common Shrew
+Sorex araneus
+Rothirsch
+Red Deer
+Cervus elaphus
+~Hirsch
+~Hart
+~Reh
+Roe Deer
+Capreolus capreolus
+Rehbock
+~Bock
+~Buck
+Damhirsch
+Fallow Deer
+Dama dama
+Wildschwein
+Wild Boar
+Sus scrofa
+Gämse
+Alpine Chamois
+Rupicapra rupicapra
+Alpensteinbock
+Alpine Ibex
+Capra ibex
+~Steinbock
+Elch
+Moose
+Alces alces
+Eurasian Elk
+Wisent
+European Bison
+Bison bonasus
+Großes Mausohr
+Greater Mouse-eared Bat
+Myotis myotis
+Bechsteinfledermaus
+Bechstein's Bat
+Myotis bechsteinii
+Wasserfledermaus
+Daubenton's Bat
+Myotis daubentonii
+Mopsfledermaus
+Western Barbastelle
+Barbastella barbastellus
+Zwergfledermaus
+Common Pipistrelle
+Pipistrellus pipistrellus
+Großer Abendsegler
+Common Noctule
+Nyctalus noctula
+Braunes Langohr
+Brown Long-eared Bat
+Plecotus auritus
+Kleine Hufeisennase
+Lesser Horseshoe Bat
+Rhinolophus hipposideros
+Breitflügelfledermaus
+Serotine Bat
+Eptesicus serotinus
+Fledermaus
+Fledermäuse
+bat
+Schweinswal
+Harbour Porpoise
+Phocoena phocoena
+Seehund
+Harbour Seal
+Phoca vitulina
+Kegelrobbe
+Grey Seal
+Halichoerus grypus
+Waschbär
+Common Raccoon
+Procyon lotor
+Marderhund
+Raccoon Dog
+Nyctereutes procyonoides
+Nutria
+Coypu
+Myocastor coypus
+Bisam
+Muskrat
+Ondatra zibethicus
+Bisamratte
+
+# --- 2 Amphibien und Reptilien / amphibians and reptiles ---
+Feuersalamander
+Fire Salamander
+Salamandra salamandra
+Alpensalamander
+Alpine Salamander
+Salamandra atra
+Kammmolch
+Great Crested Newt
+Triturus cristatus
+Bergmolch
+Alpine Newt
+Ichthyosaura alpestris
+Teichmolch
+Smooth Newt
+Lissotriton vulgaris
+Fadenmolch
+Palmate Newt
+Lissotriton helveticus
+Gelbbauchunke
+Yellow-bellied Toad
+Bombina variegata
+Rotbauchunke
+European Fire-bellied Toad
+Bombina bombina
+Geburtshelferkröte
+Common Midwife Toad
+Alytes obstetricans
+Knoblauchkröte
+Common Spadefoot
+Pelobates fuscus
+Erdkröte
+Common Toad
+Bufo bufo
+Kreuzkröte
+Natterjack Toad
+Epidalea calamita
+Wechselkröte
+European Green Toad
+Bufotes viridis
+Laubfrosch
+European Tree Frog
+Hyla arborea
+Grasfrosch
+Common Frog
+Rana temporaria
+Moorfrosch
+Moor Frog
+Rana arvalis
+Springfrosch
+Agile Frog
+Rana dalmatina
+Seefrosch
+Marsh Frog
+Pelophylax ridibundus
+Teichfrosch
+Edible Frog
+Pelophylax esculentus
+Kleiner Wasserfrosch
+Pool Frog
+Pelophylax lessonae
+~Frosch
+Kröte
+Molch
+Unke
+Amphibien
+Lurche
+~Newt
+Zauneidechse
+Sand Lizard
+Lacerta agilis
+Waldeidechse
+Viviparous Lizard
+Zootoca vivipara
+Mauereidechse
+Common Wall Lizard
+Podarcis muralis
+Smaragdeidechse
+Western Green Lizard
+Lacerta bilineata
+Blindschleiche
+Slow Worm
+Anguis fragilis
+Ringelnatter
+Grass Snake
+Natrix natrix
+Würfelnatter
+Dice Snake
+Natrix tessellata
+Schlingnatter
+Smooth Snake
+Coronella austriaca
+Äskulapnatter
+Aesculapian Snake
+Zamenis longissimus
+Kreuzotter
+European Adder
+Vipera berus
+Europäische Sumpfschildkröte
+European Pond Turtle
+Emys orbicularis
+Eidechse
+Natter
+Reptilien
+
+# --- 2 Fische, Krebse, Muscheln / fish, crayfish, mussels ---
+Bachforelle
+Brown Trout
+Salmo trutta
+~Trout
+Atlantischer Lachs
+Atlantic Salmon
+Salmo salar
+~Lachs
+~Salmon
+Huchen
+Danube Salmon
+Hucho hucho
+Äsche
+European Grayling
+Thymallus thymallus
+Seesaibling
+Arctic Char
+Salvelinus umbla
+Renke
+Whitefish
+Coregonus
+~Hecht
+Northern Pike
+Esox lucius
+~Pike
+Karpfen
+Common Carp
+Cyprinus carpio
+~Barbe
+Common Barbel
+Barbus barbus
+Nase
+Common Nase
+Chondrostoma nasus
+Aal
+European Eel
+Anguilla anguilla
+Flussbarsch
+European Perch
+Perca fluviatilis
+~Barsch
+~Zander
+Pike-perch
+Sander lucioperca
+Europäischer Wels
+Wels Catfish
+Silurus glanis
+~Waller
+Rapfen
+Asp
+Leuciscus aspius
+Döbel
+European Chub
+Squalius cephalus
+Rotauge
+Common Roach
+Rutilus rutilus
+~Roach
+Schleie
+Tench
+Tinca tinca
+Bitterling
+European Bitterling
+Rhodeus amarus
+Groppe
+European Bullhead
+Cottus gobio
+Mühlkoppe
+Bachneunauge
+European Brook Lamprey
+Lampetra planeri
+Schlammpeitzger
+European Weatherfish
+Misgurnus fossilis
+Steinbeißer
+Spined Loach
+Cobitis taenia
+Sterlet
+Acipenser ruthenus
+Flussperlmuschel
+Freshwater Pearl Mussel
+Margaritifera margaritifera
+Bachmuschel
+Thick-shelled River Mussel
+Unio crassus
+Steinkrebs
+Stone Crayfish
+Austropotamobius torrentium
+Edelkrebs
+Noble Crayfish
+Astacus astacus
+
+# --- 2 Insekten / insects (Tagfalter, Libellen, Wildbienen, Käfer u. a.) ---
+Schwalbenschwanz
+Old World Swallowtail
+Papilio machaon
+Segelfalter
+Scarce Swallowtail
+Iphiclides podalirius
+Apollofalter
+~Apollo
+Parnassius apollo
+Schwarzer Apollo
+Clouded Apollo
+Parnassius mnemosyne
+Zitronenfalter
+Common Brimstone
+Gonepteryx rhamni
+Aurorafalter
+Orange Tip
+Anthocharis cardamines
+Kleiner Fuchs
+Small Tortoiseshell
+Aglais urticae
+Tagpfauenauge
+European Peacock
+Aglais io
+Admiral
+Red Admiral
+Vanessa atalanta
+Distelfalter
+Painted Lady
+Vanessa cardui
+C-Falter
+Comma
+Polygonia c-album
+Trauermantel
+Camberwell Beauty
+Nymphalis antiopa
+Großer Schillerfalter
+Purple Emperor
+Apatura iris
+Kleiner Eisvogel
+White Admiral
+Limenitis camilla
+Kaisermantel
+Silver-washed Fritillary
+Argynnis paphia
+Heller Wiesenknopf-Ameisenbläuling
+Scarce Large Blue
+Phengaris teleius
+Dunkler Wiesenknopf-Ameisenbläuling
+Dusky Large Blue
+Phengaris nausithous
+Hauhechel-Bläuling
+Common Blue
+Polyommatus icarus
+Goldener Scheckenfalter
+Marsh Fritillary
+Euphydryas aurinia
+Großer Feuerfalter
+Large Copper
+Lycaena dispar
+Schachbrettfalter
+Marbled White
+Melanargia galathea
+Großes Ochsenauge
+Meadow Brown
+Maniola jurtina
+Spanische Flagge
+Jersey Tiger
+Euplagia quadripunctaria
+Taubenschwänzchen
+Hummingbird Hawk-moth
+Macroglossum stellatarum
+Nachtkerzenschwärmer
+Willowherb Hawkmoth
+Proserpinus proserpina
+Tagfalter
+Nachtfalter
+Schmetterling
+~Falter
+butterfly
+moth
+Blauflügel-Prachtlibelle
+Beautiful Demoiselle
+Calopteryx virgo
+Gebänderte Prachtlibelle
+Banded Demoiselle
+Calopteryx splendens
+Große Königslibelle
+Emperor Dragonfly
+Anax imperator
+Grüne Flussjungfer
+Green Snaketail
+Ophiogomphus cecilia
+Plattbauch
+Broad-bodied Chaser
+Libellula depressa
+Vierfleck
+Four-spotted Chaser
+Libellula quadrimaculata
+Hufeisen-Azurjungfer
+Azure Damselfly
+Coenagrion puella
+Helm-Azurjungfer
+Southern Damselfly
+Coenagrion mercuriale
+Große Moosjungfer
+Large White-faced Darter
+Leucorrhinia pectoralis
+Libelle
+Libellen
+dragonfly
+damselfly
+Dunkle Erdhummel
+Buff-tailed Bumblebee
+Bombus terrestris
+Ackerhummel
+Common Carder Bee
+Bombus pascuorum
+Steinhummel
+Red-tailed Bumblebee
+Bombus lapidarius
+Rostrote Mauerbiene
+Red Mason Bee
+Osmia bicornis
+Gehörnte Mauerbiene
+European Orchard Bee
+Osmia cornuta
+Blauschwarze Holzbiene
+Violet Carpenter Bee
+Xylocopa violacea
+Westliche Honigbiene
+Western Honey Bee
+Apis mellifera
+Honigbiene
+~Hummel
+Wildbiene
+Wildbienen
+Sandbiene
+Mauerbiene
+bumblebee
+wild bee
+Hornisse
+European Hornet
+Vespa crabro
+Hirschkäfer
+European Stag Beetle
+Lucanus cervus
+Eremit
+Hermit Beetle
+Osmoderma eremita
+Juchtenkäfer
+Alpenbock
+Rosalia Longicorn
+Rosalia alpina
+Großer Eichenbock
+Great Capricorn Beetle
+Cerambyx cerdo
+Heldbock
+Nashornkäfer
+European Rhinoceros Beetle
+Oryctes nasicornis
+Feldmaikäfer
+Common Cockchafer
+Melolontha melolontha
+Maikäfer
+Siebenpunkt-Marienkäfer
+Seven-spot Ladybird
+Coccinella septempunctata
+Marienkäfer
+Goldglänzender Rosenkäfer
+Rose Chafer
+Cetonia aurata
+Großer Leuchtkäfer
+Common Glow-worm
+Lampyris noctiluca
+Glühwürmchen
+~Käfer
+beetle
+Feldgrille
+Field Cricket
+Gryllus campestris
+Europäische Gottesanbeterin
+European Mantis
+Mantis religiosa
+Gottesanbeterin
+Rote Waldameise
+Red Wood Ant
+Formica rufa
+Waldameise
+
+# --- 3 Orchideen / orchids ---
+Frauenschuh
+Lady's Slipper Orchid
+Cypripedium calceolus
+Bienen-Ragwurz
+Bee Orchid
+Ophrys apifera
+Fliegen-Ragwurz
+Fly Orchid
+Ophrys insectifera
+Hummel-Ragwurz
+Late Spider Orchid
+Ophrys holoserica
+Breitblättriges Knabenkraut
+Broad-leaved Marsh Orchid
+Dactylorhiza majalis
+Fuchs' Knabenkraut
+Common Spotted Orchid
+Dactylorhiza fuchsii
+Helm-Knabenkraut
+Military Orchid
+Orchis militaris
+Purpur-Knabenkraut
+Lady Orchid
+Orchis purpurea
+Stattliches Knabenkraut
+Early Purple Orchid
+Orchis mascula
+Brand-Knabenkraut
+Burnt Orchid
+Neotinea ustulata
+Mücken-Händelwurz
+Fragrant Orchid
+Gymnadenia conopsea
+Rotes Waldvöglein
+Red Helleborine
+Cephalanthera rubra
+Weißes Waldvöglein
+White Helleborine
+Cephalanthera damasonium
+Breitblättrige Stendelwurz
+Broad-leaved Helleborine
+Epipactis helleborine
+Sumpf-Stendelwurz
+Marsh Helleborine
+Epipactis palustris
+Großes Zweiblatt
+Common Twayblade
+Neottia ovata
+Vogel-Nestwurz
+Bird's-nest Orchid
+Neottia nidus-avis
+Pyramiden-Hundswurz
+Pyramidal Orchid
+Anacamptis pyramidalis
+Orchidee
+Orchideen
+Knabenkraut
+Ragwurz
+orchid
+
+# --- 3 Bäume und Gehölze / trees and shrubs ---
+Stieleiche
+Pedunculate Oak
+Quercus robur
+Traubeneiche
+Sessile Oak
+Quercus petraea
+~Eiche
+~Oak
+Rotbuche
+European Beech
+Fagus sylvatica
+~Buche
+~Beech
+Hainbuche
+Hornbeam
+Carpinus betulus
+Bergahorn
+Sycamore Maple
+Acer pseudoplatanus
+Spitzahorn
+Norway Maple
+Acer platanoides
+Feldahorn
+Field Maple
+Acer campestre
+Gemeine Esche
+European Ash
+Fraxinus excelsior
+~Esche
+~Ash
+Sommerlinde
+Large-leaved Lime
+Tilia platyphyllos
+Winterlinde
+Small-leaved Lime
+Tilia cordata
+~Linde
+Schwarzerle
+Black Alder
+Alnus glutinosa
+~Erle
+~Alder
+Hängebirke
+Silver Birch
+Betula pendula
+Moorbirke
+Downy Birch
+Betula pubescens
+~Birke
+~Birch
+Silberweide
+White Willow
+Salix alba
+Salweide
+Goat Willow
+Salix caprea
+~Weide
+~Willow
+Schwarzpappel
+Black Poplar
+Populus nigra
+Zitterpappel
+European Aspen
+Populus tremula
+Espe
+Gemeine Fichte
+Norway Spruce
+Picea abies
+~Fichte
+Weißtanne
+Silver Fir
+Abies alba
+~Tanne
+Waldkiefer
+Scots Pine
+Pinus sylvestris
+~Kiefer
+~Pine
+Europäische Lärche
+European Larch
+Larix decidua
+Lärche
+Eibe
+European Yew
+Taxus baccata
+Bergulme
+Wych Elm
+Ulmus glabra
+Flatterulme
+European White Elm
+Ulmus laevis
+Elsbeere
+Wild Service Tree
+Sorbus torminalis
+Speierling
+Service Tree
+Sorbus domestica
+Vogelbeere
+~Rowan
+Sorbus aucuparia
+Eberesche
+Holzapfel
+European Crab Apple
+Malus sylvestris
+Wildbirne
+European Wild Pear
+Pyrus pyraster
+Vogelkirsche
+Wild Cherry
+Prunus avium
+~Cherry
+Gemeine Hasel
+Common Hazel
+Corylus avellana
+~Hasel
+~Hazel
+Stechpalme
+~Holly
+Ilex aquifolium
+Eingriffeliger Weißdorn
+Common Hawthorn
+Crataegus monogyna
+Weißdorn
+~Hawthorn
+Schlehe
+Blackthorn
+Prunus spinosa
+Schlehdorn
+Schwarzer Holunder
+Elder
+Sambucus nigra
+Holunder
+Gemeiner Wacholder
+Common Juniper
+Juniperus communis
+Wacholder
+~Juniper
+Gemeiner Efeu
+Common Ivy
+Hedera helix
+Efeu
+~Ivy
+Mistel
+Mistletoe
+Viscum album
+
+# --- 3 Wiesen-, Moor- und geschützte Pflanzen / meadow, wetland and protected plants ---
+Wiesen-Salbei
+Meadow Clary
+Salvia pratensis
+~Margerite
+Oxeye Daisy
+Leucanthemum vulgare
+Gänseblümchen
+Common Daisy
+Bellis perennis
+~Daisy
+Kornblume
+Cornflower
+Centaurea cyanus
+Klatschmohn
+Common Poppy
+Papaver rhoeas
+~Mohn
+~Poppy
+Rundblättrige Glockenblume
+Harebell
+Campanula rotundifolia
+Glockenblume
+Arnika
+Arnica
+Arnica montana
+Echte Schlüsselblume
+Cowslip
+Primula veris
+Schlüsselblume
+~Primrose
+Wiesen-Schaumkraut
+Cuckooflower
+Cardamine pratensis
+Kuckucks-Lichtnelke
+Ragged Robin
+Silene flos-cuculi
+Großer Wiesenknopf
+Great Burnet
+Sanguisorba officinalis
+Besenheide
+~Heather
+Calluna vulgaris
+Heidekraut
+Schneeheide
+Winter Heath
+Erica carnea
+~Erika
+~Erica
+~Heath
+Gamander-Ehrenpreis
+Germander Speedwell
+Veronica chamaedrys
+Ehrenpreis
+~Veronika
+~Veronica
+Sumpf-Schwertlilie
+Yellow Flag Iris
+Iris pseudacorus
+~Iris
+Sibirische Schwertlilie
+Siberian Iris
+Iris sibirica
+Schwertlilie
+Türkenbund-Lilie
+Martagon Lily
+Lilium martagon
+~Lilie
+~Lily
+Feuerlilie
+Orange Lily
+Lilium bulbiferum
+Hunds-Rose
+Dog Rose
+Rosa canina
+~Rose
+Wildrose
+März-Veilchen
+Sweet Violet
+Viola odorata
+Veilchen
+~Violet
+~Viola
+~Jasmin
+Edelweiß
+Edelweiss
+Leontopodium nivale
+Stängelloser Enzian
+Trumpet Gentian
+Gentiana acaulis
+Enzian
+Gentian
+Frühlings-Enzian
+Spring Gentian
+Gentiana verna
+Gelber Enzian
+Great Yellow Gentian
+Gentiana lutea
+Behaarte Alpenrose
+Hairy Alpenrose
+Rhododendron hirsutum
+Alpenrose
+Aurikel
+Auricula
+Primula auricula
+Gewöhnliche Kuhschelle
+Pasqueflower
+Pulsatilla vulgaris
+Küchenschelle
+Trollblume
+Globeflower
+Trollius europaeus
+Schachblume
+Snake's Head Fritillary
+Fritillaria meleagris
+Märzenbecher
+Spring Snowflake
+Leucojum vernum
+Schneeglöckchen
+Snowdrop
+Galanthus nivalis
+Leberblümchen
+Liverleaf
+Hepatica nobilis
+Seidelbast
+Mezereon
+Daphne mezereum
+~Daphne
+Diptam
+Burning Bush
+Dictamnus albus
+Silberdistel
+Stemless Carline Thistle
+Carlina acaulis
+~Distel
+Rundblättriger Sonnentau
+Round-leaved Sundew
+Drosera rotundifolia
+Sonnentau
+Fieberklee
+Bogbean
+Menyanthes trifoliata
+Scheiden-Wollgras
+Hare's-tail Cottongrass
+Eriophorum vaginatum
+Wollgras
+Cottongrass
+Torfmoos
+Sphagnum
+~Moos
+Weiße Seerose
+White Water Lily
+Nymphaea alba
+Seerose
+Gelbe Teichrose
+Yellow Water-lily
+Nuphar lutea
+Krebsschere
+Water Soldier
+Stratiotes aloides
+Schilfrohr
+Common Reed
+Phragmites australis
+Schilf
+Breitblättriger Rohrkolben
+Bulrush
+Typha latifolia
+Rohrkolben
+Echtes Mädesüß
+Meadowsweet
+Filipendula ulmaria
+Blutweiderich
+Purple Loosestrife
+Lythrum salicaria
+Sumpfdotterblume
+Marsh Marigold
+Caltha palustris
+Bärlauch
+Wild Garlic
+Allium ursinum
+Maiglöckchen
+Lily of the Valley
+Convallaria majalis
+Buschwindröschen
+Wood Anemone
+Anemone nemorosa
+Gewöhnliche Akelei
+Common Columbine
+Aquilegia vulgaris
+Akelei
+Gewöhnlicher Hornklee
+Bird's-foot Trefoil
+Lotus corniculatus
+Rotklee
+Red Clover
+Trifolium pratense
+~Klee
+~Clover
+Gewöhnlicher Natternkopf
+Viper's Bugloss
+Echium vulgare
+Wilde Möhre
+Wild Carrot
+Daucus carota
+Echtes Johanniskraut
+St John's Wort
+Hypericum perforatum
+Johanniskraut
+Feld-Thymian
+Breckland Thyme
+Thymus serpyllum
+Königsfarn
+Royal Fern
+Osmunda regalis
+Hirschzunge
+Hart's-tongue Fern
+Asplenium scolopendrium
+Keulen-Bärlapp
+Stag's-horn Clubmoss
+Lycopodium clavatum
+Drüsiges Springkraut
+Himalayan Balsam
+Impatiens glandulifera
+Riesen-Bärenklau
+Giant Hogweed
+Heracleum mantegazzianum
+Japanischer Staudenknöterich
+Japanese Knotweed
+Reynoutria japonica
+Kanadische Goldrute
+Canadian Goldenrod
+Solidago canadensis
+
+# --- 3 Pilze und Flechten / fungi and lichens ---
+Fliegenpilz
+Fly Agaric
+Amanita muscaria
+Grüner Knollenblätterpilz
+Death Cap
+Amanita phalloides
+Steinpilz
+Penny Bun
+Boletus edulis
+Pfifferling
+Golden Chanterelle
+Cantharellus cibarius
+Echter Zunderschwamm
+Tinder Fungus
+Fomes fomentarius
+Schwefelporling
+Chicken of the Woods
+Laetiporus sulphureus
+~Pilz
+Pilze
+Flechte
+Flechten
+fungus
+lichen
+
+# --- 4 Lebensräume und Naturschutzbegriffe / habitat and conservation terms ---
+Streuobstwiese
+Streuobst
+Moor
+Hochmoor
+Niedermoor
+Flachmoor
+Moorrenaturierung
+Auwald
+Auenlandschaft
+Bruchwald
+Feuchtwiese
+Nasswiese
+Magerrasen
+Kalkmagerrasen
+Trockenrasen
+Halbtrockenrasen
+Wacholderheide
+Zwergstrauchheide
+Hecke
+Feldgehölz
+Totholz
+Biotopbaum
+Höhlenbaum
+Ackerrandstreifen
+Blühstreifen
+Blühfläche
+Ackerbrache
+Röhricht
+Schilfgürtel
+Verlandungszone
+Kiesbank
+Natura 2000
+FFH-Gebiet
+FFH-Richtlinie
+Vogelschutzgebiet
+Vogelschutzrichtlinie
+SPA-Gebiet
+Naturschutzgebiet
+Landschaftsschutzgebiet
+Naturdenkmal
+Biosphärenreservat
+Naturpark
+Rote Liste
+Biotop
+Biotopverbund
+Biotopkartierung
+Ausgleichsfläche
+Nistkasten
+Nisthilfe
+Insektenhotel
+Horstschutzzone
+Brutplatz
+Brutrevier
+Brutvogelkartierung
+Brutvogelatlas
+Wasservogelzählung
+Stunde der Gartenvögel
+Stunde der Wintervögel
+Vogel des Jahres
+Vogelberingung
+Krötenzaun
+Amphibienzaun
+Grünbrücke
+Artenschutz
+Vogelschutz
+Naturschutz
+Landschaftspflege
+Wiedervernässung
+Renaturierung
+Artenhilfsprogramm
+Vertragsnaturschutz
+Wiesenbrütergebiet
+Gewässerrandstreifen
+Lebensraumtyp
+Erhaltungszustand
+Schutzgebiet
+Red List
+Special Protection Area
+Habitats Directive
+Birds Directive
+nest box
+hedgerow
+wetland
+peat bog
+floodplain forest
+traditional orchard
+
+# --- short English names (added) ---
+Beaver
+Wildcat
+Lynx
+Badger
+Dormouse
+Squirrel
+Tree Frog
+Natterjack
+Adder
+Bee-eater
+Wryneck

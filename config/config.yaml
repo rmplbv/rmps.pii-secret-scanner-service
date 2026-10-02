@@ -41,6 +41,21 @@ layers:
         pattern: '(?i)\b(?:projekt(?:nummer|-?nr\.?|code|kennung)?|project\s?(?:no\.?|number|code|id)?)\s*[:#]?\s*([A-Z]{1,6}[-_]?\d{2,8}(?:[-_.]\d{1,6})*)\b'
         group: 1
         score: 0.85
+      - name: project_name_keyword       # "am Projekt Nordlicht", "project Blue Heron"
+        entity: PROJECT_NAME
+        pattern: '(?:\b(?:[Pp]rojekt|[Pp]roject|[Vv]orhaben|[Ii]nitiative|[Pp]rogramm|[Pp]rogram)\s+)((?:[A-ZÄÖÜ][\wäöüß]*(?:-[\wäöüß]+)*)(?:\s+(?:[A-ZÄÖÜ][\wäöüß]*|\d+(?:\.\d+)?|[IVX]{1,4}))?(?:\s+(?:[A-ZÄÖÜ][\wäöüß]*|\d+(?:\.\d+)?|[IVX]{1,4}))?)'
+        group: 1
+        score: 0.6
+      - name: organization_legal_form    # "Geisel GmbH & Co. KG", "Hudson Ltd"
+        entity: ORGANIZATION
+        pattern: '((?:(?!(?:GmbH|gGmbH|AG|KG|KGaA|OHG|GbR|eG|SE|UG|Ltd|LLC|LLP|Inc|PLC|Corp|Co|Die|Der|Das|Dem|Den|Des|Ein|Eine|Einer|Bei|Mit|Von|Vom|Für|An|Am|Im|In|Auf|Zur|Zum|Und|Unsere|Unser|Ihre|Ihr|Laut|The|A|An|At|By|For|From|With|Our|Your|Their|And|To|Of)\b)[A-ZÄÖÜ][\wäöüß&.\-]*,?\s+(?:und\s+|&\s+|and\s+)?){1,4}(?:GmbH\s+&\s+Co\.\s+KGaA|GmbH\s+&\s+Co\.\s+KG|GmbH|gGmbH|AG|KGaA|KG|OHG|GbR|e\.\s?V\.|eG|SE|UG(?:\s+\(haftungsbeschränkt\))?|Ltd\.?|Limited|LLC|LLP|Inc\.?|PLC|plc|Corp\.?|Co\.)(?![\wäöü]))'
+        group: 1
+        score: 0.7
+      - name: iban_unchecked             # IBAN-shaped but invalid checksum (typos) — Presidio only accepts valid ones
+        entity: IBAN_CODE
+        pattern: '\b((?:DE|AT|CH|LI|LU|NL|BE|FR|IT|ES|GB|IE)\d{2}(?:\s?[A-Z0-9]{4}){3,7}(?:\s?[A-Z0-9]{1,4})?)\b'
+        group: 1
+        score: 0.65
       - name: project_code_shape
         entity: PROJECT_CODE
         pattern: '\b((?:PRJ|PROJ|PRJ\d{2}|P)[-_]?\d{3,8}(?:[-_.]\d{1,6})*)\b'
@@ -101,6 +116,7 @@ layers:
     # sent to the LLM for a yes/no verdict.
     adjudicate_range: [0.25, 0.75]
     score_found: 0.75               # score for new spans the LLM discovers
+    max_candidates: 60              # uncertain spans per document sent for a verdict (output tokens are the CPU bottleneck)
     disable_thinking: true          # Qwen3: send enable_thinking=false
     max_retries: 2
     on_error: skip                  # skip (warn, keep other layers' results) | fail (fail the job)
@@ -157,6 +173,7 @@ dictionaries:
   project_names: config/dictionaries/project_names.txt
   special_category: config/dictionaries/special_category.yaml
   allow_list: config/dictionaries/allow_list.txt
+  species: config/dictionaries/species.txt   # animal/plant names are not PII (see file header)
   fake_project_words: app/data/fake/project_words.yaml
 
 anonymize:
@@ -172,6 +189,26 @@ anonymize:
   no_fake_entities:
     [HEALTH_DATA, RELIGION, POLITICAL_OPINION, TRADE_UNION, ETHNIC_ORIGIN,
      SEXUAL_ORIENTATION, GENETIC_BIOMETRIC, NRP]
+
+# Presets adapt detection to the kind of text. Request field `preset`:
+#   general   e-mails, letters, notes, web pages: plain dates, clock times and
+#             durations are NOT PII (dates of birth still are)
+#   timesheet everything in the `timesheet:` section below
+#   auto      timesheet if the text looks like one (many lines with times/durations), else general
+# Per-request `timesheet` overrides are applied on top of the preset.
+default_preset: auto
+presets:
+  general:
+    dates: {detect: false}
+    clock_times: {detect: false}
+    durations: {detect: false}
+  timesheet: {}
+
+# HTML input (request field `format`: auto | text | html). Only visible text and
+# these attributes are analysed; tags and structure are kept intact.
+html:
+  attributes: [href, title, alt, value, placeholder, content, aria-label, data-name, data-email]
+  skip_elements: [script, style, noscript, template, svg]
 
 # Timesheet handling. Each switch can be overridden per request (options.timesheet).
 #   detect: false -> the entity is not detected/touched at all

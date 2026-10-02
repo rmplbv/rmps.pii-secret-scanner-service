@@ -47,14 +47,19 @@ NON_PII_WORDS = {
     "they", "them", "someone", "herr", "frau", "mr", "mrs", "ms", "dr", "prof", "team", "kunde", "customer",
     # greetings / sign-offs that NER models tag at the start of a line
     "hallo", "hi", "hello", "dear", "liebe", "lieber", "best", "regards", "cheers", "thanks", "danke",
-    "grüße", "gruß", "viele grüße", "beste grüße", "mfg", "vg", "lg",
+    "grüße", "gruß", "viele grüße", "beste grüße", "mfg", "vg", "lg", "kind regards", "best regards",
+    "warm regards", "many thanks", "mit freundlichen grüßen", "freundliche grüße", "liebe grüße",
+    "herzliche grüße", "sehr geehrte", "sehr geehrter", "hab grad",
 }
+_ARTICLE = re.compile(r"^(?:der|die|das|den|dem|des|ein|eine|einen|the|a|an)\s+", re.I)
+_DATE_LIKE = re.compile(r"^(?:\d{1,4}[./-]\d{1,2}(?:[./-]\d{2,4})?\.?|\d{1,2}[./-]\d{4})$")
 HONORIFIC = re.compile(
     r"^(?:(?:Herrn?|Frau|Fr\.|Hr\.|Dr\.|Prof\.|Dipl\.-Ing\.|Mr\.?|Mrs\.?|Ms\.?|Miss|Mx\.?|Sir|Dame)\s+)+")
 
 
 def normalise(spans: Iterable[Span], settings: Settings, text: str,
-              allow: set[str] | None = None, ignored: set[str] | None = None) -> list[Span]:
+              allow: set[str] | None = None, ignored: set[str] | None = None,
+              species: tuple[set[str], set[str]] | None = None) -> list[Span]:
     aliases = settings.entity_aliases
     ignored = set(settings.ignored_entities) if ignored is None else ignored
     allow = allow or set()
@@ -78,6 +83,12 @@ def normalise(spans: Iterable[Span], settings: Settings, text: str,
         low = s.text.lower().rstrip(".")
         if low in allow or low in NON_PII_WORDS:
             continue
+        if species:
+            bare = _ARTICLE.sub("", low).rstrip("!?.,;:")
+            if bare in species[0] or (bare in species[1] and s.entity != "PERSON"):
+                continue  # "Kiebitz" is a bird, not a place; "Fink" may be a person, though
+        if s.entity == "PHONE_NUMBER" and _DATE_LIKE.match(s.text.strip()):
+            continue  # "05.08.2026" read as a phone number
         out.append(s)
     return out
 

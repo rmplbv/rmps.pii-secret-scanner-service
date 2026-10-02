@@ -14,6 +14,8 @@ from ..models import Span
 from ..text_utils import Chunk, detect_language, split_blocks
 from .recognizers import (
     DictionaryRecognizer,
+    PersonNameRecognizer,
+    first_names,
     address_recognizers,
     RegexGroupRecognizer,
     read_list,
@@ -64,6 +66,11 @@ class PresidioLayer:
             },
         }
         nlp_engine = NlpEngineProvider(nlp_configuration=nlp_conf).create_engine()
+        from spacy.lang.de.stop_words import STOP_WORDS as DE
+        from spacy.lang.en.stop_words import STOP_WORDS as EN
+
+        self._first_names = first_names()
+        self._stop = {w.lower() for w in DE | EN}
         registry = RecognizerRegistry(supported_languages=langs)
         for lang in langs:
             for rec in self._recognizers(lang):
@@ -82,6 +89,7 @@ class PresidioLayer:
                 recs.append(RegexGroupRecognizer(p.name, p.entity, p.pattern, p.group, p.score, lang))
         recs.extend(timesheet_recognizers(lang))
         recs.extend(address_recognizers(lang))
+        recs.append(PersonNameRecognizer(lang, self._first_names, self._stop))
         projects = read_list(s.path(s.dictionaries.project_names))
         if projects:
             recs.append(DictionaryRecognizer("project_dictionary", "PROJECT_NAME", projects, lang, 0.95))
