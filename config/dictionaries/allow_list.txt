@@ -1,0 +1,100 @@
+# Allow list: terms that must NEVER be redacted.
+#
+# Format:
+#   - One term per line; multi-word terms are allowed.
+#   - Matching is case-insensitive and on whole words only.
+#   - Lines starting with "#" are comments; blank lines are ignored.
+#
+# Typical use: words that NER models frequently mis-tag as PERSON / ORG / LOCATION
+# in business and timesheet text (weekdays, months, tools, workplace vocabulary).
+# Note: an entry suppresses ALL detections of that exact term, including real
+# names (e.g. a person called "April"). Remove entries that collide with names
+# you need redacted.
+
+# --- Wochentage / weekdays ---
+Montag
+Dienstag
+Mittwoch
+Donnerstag
+Freitag
+Samstag
+Sonnabend
+Sonntag
+Monday
+Tuesday
+Wednesday
+Thursday
+Friday
+Saturday
+Sunday
+
+# --- Monate / months ---
+Januar
+Jänner
+Februar
+März
+September
+Oktober
+November
+Dezember
+January
+February
+March
+July
+October
+December
+
+# --- Arbeitsalltag / workplace ---
+Homeoffice
+Home-Office
+Home Office
+Mobiles Arbeiten
+Urlaub
+Resturlaub
+Feiertag
+Brückentag
+Überstunden
+Gleitzeit
+Mittagspause
+Dienstreise
+Kundentermin
+Abwesenheit
+Vacation
+Holiday
+Overtime
+Team
+Meeting
+Daily
+Standup
+Stand-up
+Sprint
+Sprint Review
+Retro
+Retrospektive
+Backlog
+Workshop
+Schulung
+Onboarding
+Kickoff
+Kick-off
+Release
+Deployment
+Hotfix
+Bugfix
+Ticket
+
+# --- Tools ---
+Jira
+Confluence
+Excel
+PowerPoint
+Teams
+Microsoft Teams
+Outlook
+SharePoint
+OneDrive
+SAP
+Slack
+Zoom
+GitHub
+GitLab

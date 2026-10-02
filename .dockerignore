@@ -1,0 +1,8 @@
+.git
+.venv
+models
+**/__pycache__
+.pytest_cache
+eval/out
+*.gguf
+.env

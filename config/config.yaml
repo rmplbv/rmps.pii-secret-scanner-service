@@ -1,0 +1,207 @@
+# PII service configuration.
+# Paths are relative to the repository root (or /app inside the container).
+# Every value can be overridden per environment via PII_CONFIG=/path/to/other.yaml.
+
+languages: [de, en]
+default_language: de          # used when language detection is inconclusive
+
+# Which detection layers each profile runs. "patterns" and "spacy" always run
+# together (they share the Presidio analyzer).
+profiles:
+  fast: [patterns, spacy]
+  balanced: [patterns, spacy, transformer, gliner]
+  thorough: [patterns, spacy, transformer, gliner, llm]
+default_profile: thorough
+
+# Which arq queue serves which profile. Run one worker per queue
+# (see docker-compose.yml): the fast worker only loads spaCy.
+queues:
+  fast: pii:fast
+  balanced: pii:full
+  thorough: pii:full
+
+layers:
+  patterns:
+    phone_regions: [DE, AT, CH, US, GB]
+    # Organisation-specific regexes. `group` selects the capture group that is
+    # the actual PII (so keywords like "Personalnummer" are not redacted).
+    custom_patterns:
+      - name: employee_id
+        entity: EMPLOYEE_ID
+        pattern: '(?i)\b(?:personal(?:nummer|nr\.?)|pers\.?\s?-?\s?nr\.?|mitarbeiter(?:nummer|\s?-?\s?nr\.?|-?id)|employee\s?(?:id|no\.?|number)|staff\s?(?:id|no\.?))\s*[:#]?\s*([A-Z]{0,3}-?\d{3,10})\b'
+        group: 1
+        score: 0.9
+      - name: cost_center
+        entity: PROJECT_CODE
+        pattern: '(?i)\b(?:kostenstelle|kst\.?|cost\s?cent(?:er|re)|innenauftrag|auftrag(?:snummer|s-?nr\.?)?|psp(?:-element)?|wbs(?:\s?element)?)\s*[:#]?\s*([A-Z0-9][A-Z0-9.\-/]{2,20}[A-Z0-9])\b'
+        group: 1
+        score: 0.85
+      - name: project_code_keyword
+        entity: PROJECT_CODE
+        pattern: '(?i)\b(?:projekt(?:nummer|-?nr\.?|code|kennung)?|project\s?(?:no\.?|number|code|id)?)\s*[:#]?\s*([A-Z]{1,6}[-_]?\d{2,8}(?:[-_.]\d{1,6})*)\b'
+        group: 1
+        score: 0.85
+      - name: project_code_shape
+        entity: PROJECT_CODE
+        pattern: '\b((?:PRJ|PROJ|PRJ\d{2}|P)[-_]?\d{3,8}(?:[-_.]\d{1,6})*)\b'
+        group: 1
+        score: 0.7
+
+  spacy:
+    models:
+      de: de_core_news_lg
+      en: en_core_web_lg
+    # spaCy ORG has many false positives: multiply its score so that it only
+    # survives when another layer agrees.
+    low_confidence_entities: [ORGANIZATION]
+    low_confidence_multiplier: 0.45
+
+  transformer:
+    model: Davlan/xlm-roberta-large-ner-hrl   # multilingual (incl. de, en): PER/ORG/LOC/DATE
+    label_map: {PER: PERSON, ORG: ORGANIZATION, LOC: LOCATION}
+    chunk_chars: 1500
+    overlap_chars: 200
+    batch_size: 4
+    min_score: 0.5
+
+  gliner:
+    model: urchade/gliner_multi_pii-v1
+    threshold: 0.45
+    chunk_words: 220
+    overlap_words: 40
+    # GLiNER is zero-shot: natural-language label -> entity type
+    labels:
+      person: PERSON
+      organization: ORGANIZATION
+      street address: ADDRESS
+      city: LOCATION
+      phone number: PHONE_NUMBER
+      email address: EMAIL_ADDRESS
+      date of birth: DATE_OF_BIRTH
+      iban: IBAN_CODE
+      employee id: EMPLOYEE_ID
+      project name: PROJECT_NAME
+      medical condition: HEALTH_DATA
+      medication: HEALTH_DATA
+      religion: RELIGION
+      political party membership: POLITICAL_OPINION
+      trade union: TRADE_UNION
+      ethnicity: ETHNIC_ORIGIN
+      sexual orientation: SEXUAL_ORIENTATION
+
+  llm:
+    base_url: http://llm:8080        # llama.cpp server (OpenAI compatible)
+    model: qwen3-8b
+    timeout_seconds: 900
+    chunk_chars: 4000
+    overlap_chars: 300
+    max_tokens: 2048
+    temperature: 0.0
+    # Spans from the other layers whose merged score falls in this range are
+    # sent to the LLM for a yes/no verdict.
+    adjudicate_range: [0.25, 0.75]
+    score_found: 0.75               # score for new spans the LLM discovers
+    disable_thinking: true          # Qwen3: send enable_thinking=false
+    max_retries: 2
+    on_error: skip                  # skip (warn, keep other layers' results) | fail (fail the job)
+
+merge:
+  min_score: 0.4                    # minimum final score when >= 2 layers agree
+  single_source_min_score: 0.55     # minimum when only one layer found the span
+  agreement_boost: 0.15             # per additional agreeing layer
+  # Reliability of each layer; a span's own score is multiplied by it.
+  source_weights: {patterns: 1.0, transformer: 0.95, gliner: 0.9, llm: 0.9, spacy: 0.85}
+  # Per-entity minimum score (overrides the two thresholds above). Pattern
+  # recognizers with checksums/strict formats report low raw scores.
+  entity_min_score:
+    PHONE_NUMBER: 0.35
+    URL: 0.45
+    DE_TAX_ID: 0.3
+    DE_ID_CARD: 0.3
+    DE_PASSPORT: 0.3
+    DE_SOCIAL_SECURITY: 0.3
+    DE_HEALTH_INSURANCE: 0.3
+    DE_TAX_NUMBER: 0.3
+    DE_VAT_ID: 0.3
+  # Keep the uncovered part of a rejected overlapping span (recall bias).
+  keep_remainders: true
+  # Higher number wins when spans of different types overlap with similar scores.
+  entity_priority:
+    EMAIL_ADDRESS: 100
+    IBAN_CODE: 100
+    CREDIT_CARD: 100
+    URL: 90
+    PHONE_NUMBER: 90
+    EMPLOYEE_ID: 85
+    PROJECT_CODE: 85
+    PROJECT_NAME: 80
+    PERSON: 70
+    HEALTH_DATA: 65
+    ADDRESS: 60
+    ORGANIZATION: 50
+    LOCATION: 40
+    DATE_TIME: 30
+    CLOCK_TIME: 30
+    DURATION: 30
+
+# Normalisation of entity names produced by different recognizers.
+entity_aliases:
+  DE_PLZ: POSTAL_CODE
+  NRP: NRP
+  DATE_OF_BIRTH: DATE_OF_BIRTH
+
+# Entities that are never reported (noise for our use case). Can be overridden per request.
+ignored_entities: [POSTAL_CODE]
+
+dictionaries:
+  project_names: config/dictionaries/project_names.txt
+  special_category: config/dictionaries/special_category.yaml
+  allow_list: config/dictionaries/allow_list.txt
+  fake_project_words: app/data/fake/project_words.yaml
+
+anonymize:
+  default_mode: placeholder         # redact | placeholder | mask | fake | hash
+  redact_text: "[REDACTED]"
+  placeholder_format: "<{entity}_{n}>"
+  hash_format: "<{entity}_{digest}>"
+  mask_char: "*"
+  mask_keep_last: 4                 # only for the entities below; everything else is fully masked
+  mask_keep_last_entities: [IBAN_CODE, CREDIT_CARD, PHONE_NUMBER]
+  # Entities that never get fake values (a fake diagnosis would be misleading);
+  # in fake mode they fall back to the placeholder operator.
+  no_fake_entities:
+    [HEALTH_DATA, RELIGION, POLITICAL_OPINION, TRADE_UNION, ETHNIC_ORIGIN,
+     SEXUAL_ORIENTATION, GENETIC_BIOMETRIC, NRP]
+
+# Timesheet handling. Each switch can be overridden per request (options.timesheet).
+#   detect: false -> the entity is not detected/touched at all
+#   fake:   false -> the entity uses the request's normal operator (e.g. placeholder)
+#                    even in fake mode; true -> realistic fake value in fake mode
+timesheet:
+  project_names:
+    detect: true
+    fake: true
+    generated_ratio: 0.7            # share of fakes drawn from subword combinations vs the static list
+  project_codes:
+    detect: true
+    fake: true                      # digits/letters substituted, format kept
+  dates:
+    detect: true
+    fake: true                      # shift all dates of a session by one offset
+    shift_days: [-120, 120]
+    preserve_weekday: true          # offset is a multiple of 7 days
+  clock_times:
+    detect: true
+    fake: false                     # shift all clock times of a session by one offset
+    shift_minutes: [-90, 90]
+    round_minutes: 15
+  durations:
+    detect: true
+    fake: false                     # jitter durations
+    jitter_pct: 15
+    round_minutes: 15
+
+vault:
+  key_env: PII_VAULT_KEY            # base64 32-byte key, required in production
+  session_ttl_seconds: 2592000      # 30 days
+  job_ttl_seconds: 86400

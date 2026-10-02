@@ -1,0 +1,1026 @@
+# Fake project-name vocabulary (German + English, codename style).
+#
+# Used by the anonymizer to generate FICTIONAL replacement values for detected
+# project names. Two generation modes:
+#   1. pick a ready-made entry from `names`, or
+#   2. combine [prefix] + core [+ suffix], e.g. "Silber" + "falke" -> "Silberfalke",
+#      "Blue" + "Harbor" -> "Blue Harbor", "Nordlicht" + "2.0" -> "Nordlicht 2.0".
+#
+# All words are neutral nature/landscape/material/sky/object terms. Deliberately
+# avoided: real companies, brands, products, well-known programs, political,
+# religious or offensive words. Prefixes and cores are single capitalized tokens.
+# Keep lists free of duplicates.
+
+names:
+  - Nordlicht
+  - Blue Harbor
+  - Silberfalke
+  - Project Juniper
+  - Talbrücke
+  - Quartz Bridge
+  - Morgenrot
+  - Abendstern
+  - Waldläufer
+  - Bergkristall
+  - Seeadler
+  - Graureiher
+  - Sonnenwende
+  - Sternschnuppe
+  - Nebelhorn
+  - Eisvogel
+  - Wildbach
+  - Hochmoor
+  - Silbermöwe
+  - Kupferkessel
+  - Steinadler
+  - Grünspecht
+  - Schneeeule
+  - Feuerlilie
+  - Sturmvogel
+  - Rotfuchs
+  - Blaufalke
+  - Goldammer
+  - Lichtung
+  - Sommerwind
+  - Winterlinde
+  - Herbstlaub
+  - Frühlingsquell
+  - Mondsichel
+  - Polarfuchs
+  - Seerose
+  - Wolkenturm
+  - Bernsteinpfad
+  - Granitfels
+  - Kristallsee
+  - Distelfink
+  - Kiebitz
+  - Wacholder
+  - Taubenblau
+  - Nordkap
+  - Südwind
+  - Ostwind
+  - Westküste
+  - Hochland
+  - Tiefsee
+  - Felsenquelle
+  - Bergpfad
+  - Talsperre
+  - Uferweg
+  - Leuchtfeuer
+  - Ankerplatz
+  - Kompassrose
+  - Windmühle
+  - Wetterhahn
+  - Sternbild
+  - Himmelstor
+  - Regenbogen
+  - Gletscherspalte
+  - Dünenwind
+  - Heidekraut
+  - Moorlilie
+  - Eichenhain
+  - Birkenweg
+  - Lindenblatt
+  - Ahornblatt
+  - Erlenbruch
+  - Kastanienallee
+  - Fichtenwald
+  - Tannenzapfen
+  - Lärchenhang
+  - Zedernholz
+  - Silberbirke
+  - Blautanne
+  - Rotbuche
+  - Weißdorn
+  - Schwarzerle
+  - Goldregen
+  - Kranichzug
+  - Storchennest
+  - Schwanensee
+  - Rabenfeder
+  - Falkenhorst
+  - Adlerauge
+  - Luchspfad
+  - Wolfsspur
+  - Biberdamm
+  - Otterbach
+  - Dachsbau
+  - Hirschsprung
+  - Fuchsbau
+  - Igelweg
+  - Hasensprung
+  - Libellenflug
+  - Hummelflug
+  - Lerchenfeld
+  - Meisenweg
+  - Amselruf
+  - Schwalbennest
+  - Eulenflug
+  - Uhuruf
+  - Elsterflug
+  - Möwenflug
+  - Kormoran
+  - Steinbock
+  - Gamsbart
+  - Murmeltier
+  - Edelweiß
+  - Enzianblau
+  - Alpenglühen
+  - Gipfelkreuz
+  - Gratwanderung
+  - Passhöhe
+  - Bergsee
+  - Waldsee
+  - Morgentau
+  - Abendrot
+  - Mitternachtssonne
+  - Polarstern
+  - Sternwarte
+  - Kometenschweif
+  - Mondstein
+  - Sonnentau
+  - Lichtblick
+  - Funkenflug
+  - Flammenherz
+  - Glockenturm
+  - Spiegelsee
+  - Prismenlicht
+  - Brückenschlag
+  - Wegweiser
+  - Torbogen
+  - Laternenlicht
+  - Segelwind
+  - Kielwasser
+  - Hafenkante
+  - Inselblick
+  - Küstenpfad
+  - Klippenrand
+  - Muschelbucht
+  - Korallenriff
+  - Perlmutt
+  - Achatstein
+  - Opalglanz
+  - Saphirblau
+  - Rubinrot
+  - Smaragdgrün
+  - Topasgold
+  - Obsidian
+  - Basaltsäule
+  - Marmorhalle
+  - Schieferdach
+  - Kobaltblau
+  - Eisenhut
+  - Stahlfeder
+  - Bronzeglanz
+  - Silberstreif
+  - Goldfasan
+  - Blue Heron
+  - Silver Birch
+  - Northern Light
+  - Quiet Harbor
+  - Swift Falcon
+  - Crimson Maple
+  - Golden Meadow
+  - Iron Ridge
+  - Stone Bridge
+  - Amber Valley
+  - Coral Reef
+  - Granite Peak
+  - Copper Canyon
+  - Misty Hollow
+  - Frost Hollow
+  - Cedar Grove
+  - Willow Creek
+  - Pine Ridge
+  - Oak Haven
+  - Birch Lane
+  - Aspen Trail
+  - Elm Crossing
+  - Alder Brook
+  - Hazel Glen
+  - Rowan Hill
+  - Juniper Path
+  - Heather Moor
+  - Thistle Down
+  - Clover Field
+  - Ivy Gate
+  - Lavender Fields
+  - Sage Meadow
+  - Bramble Way
+  - Morning Dew
+  - Evening Star
+  - Silent Owl
+  - Wandering Heron
+  - Gentle Breeze
+  - Rising Tide
+  - Falling Leaf
+  - Hidden Spring
+  - Open Horizon
+  - Bright Meridian
+  - Polar Bear
+  - Arctic Fox
+  - Snow Owl
+  - Grey Wolf
+  - Red Kite
+  - Little Wren
+  - Golden Plover
+  - Blue Kestrel
+  - Green Finch
+  - Black Swan
+  - White Stork
+  - Silver Salmon
+  - Rainbow Trout
+  - Swift Otter
+  - Bold Badger
+  - Wise Raven
+  - Lone Pine
+  - Crystal Lake
+  - Emerald Bay
+  - Sapphire Coast
+  - Jade Garden
+  - Onyx Tower
+  - Ivory Gate
+  - Velvet Moss
+  - Indigo Sky
+  - Scarlet Ember
+  - Teal Lagoon
+  - Azure Bay
+  - Cobalt Stream
+  - Violet Dusk
+  - Amber Dawn
+  - Lunar Tide
+  - Solar Wind
+  - Stellar Drift
+  - Comet Trail
+  - Nebula Gate
+  - Meteor Field
+  - Aurora Ridge
+  - Zenith Point
+  - Pinnacle Rock
+  - Summit Path
+  - Glacier Run
+  - Fjord Crossing
+  - Delta Reach
+  - Harbor Light
+  - Lighthouse Point
+  - Anchor Bay
+  - Compass Rose
+  - Lantern Hill
+  - Beacon Ridge
+  - Keel Point
+  - Sailing Stone
+  - Driftwood
+  - Tidewater
+  - Seashell Cove
+  - Sandpiper
+  - Puffin Rock
+  - Osprey Nest
+  - Albatross Wing
+  - Pelican Point
+  - Heron Marsh
+  - Crane Lake
+  - Lark Rise
+  - Nightingale
+  - Starling Flight
+  - Swallowtail
+  - Dragonfly
+  - Firefly Glade
+  - Honeybee
+  - Moth Lantern
+  - Thunder Valley
+  - Storm Petrel
+  - Rain Garden
+  - Windmill Lane
+  - Millstone
+  - Quiet Brook
+  - Riverbend
+  - Stonebrook
+  - Westwind
+  - Eastgate
+  - Southcliff
+  - Northfield Grove
+  - Highmoor
+  - Deepwater Cove
+  - Project Heron
+  - Project Larch
+  - Project Kestrel
+  - Project Granite
+  - Project Willow
+  - Project Bluebell
+  - Project Marigold
+  - Project Comet
+  - Project Lantern
+  - Project Puffin
+  - Project Basalt
+  - Project Wren
+  - Projekt Kranich
+  - Projekt Eiche
+  - Projekt Lerche
+  - Projekt Bergahorn
+  - Projekt Nordwind
+  - Projekt Silberdistel
+  - Projekt Talweg
+  - Projekt Mondschein
+  - Initiative Bachstelze
+  - Vorhaben Weidenkorb
+  - Operation Moorlicht
+  - Mission Seestern
+  - Wolkenbruch
+  - Sonnenstrahl
+  - Sternenstaub
+  - Rauhreif
+  - Tauwetter
+  - Hagelkorn
+  - Schneeflocke
+  - Nordstern
+  - Südlicht
+  - Ostseewind
+  - Wellenreiter
+  - Brandungsfels
+  - Gezeitenstrom
+  - Sandbank
+  - Wattenpfad
+  - Deichgraf
+  - Fischreiher
+  - Bachstelze
+  - Zaunkönig
+  - Rotkehlchen
+  - Buntspecht
+  - Waldkauz
+  - Turmfalke
+  - Wanderfalke
+  - Mauersegler
+  - Haubentaucher
+  - Löffelreiher
+  - Silberreiher
+  - Kaiseradler
+  - Grünfink
+  - Feldlerche
+  - Kornblume
+  - Mohnfeld
+  - Sonnenhut
+  - Glockenblume
+  - Vergissmeinnicht
+  - Schlüsselblume
+  - Löwenzahn
+  - Pusteblume
+  - Hagebutte
+  - Holunderblüte
+  - Lindenblüte
+  - Apfelblüte
+  - Kirschblüte
+  - Quarzsand
+  - Kreidefels
+  - Sandstein
+  - Tuffstein
+  - Feldstein
+  - Mühlstein
+  - Pebble Cove
+  - Larkspur Hill
+  - Bracken Ridge
+  - Foxglove Meadow
+  - Primrose Path
+  - Sorrel Field
+  - Tamarisk Bay
+  - Mossy Stone
+  - Glimmerquell
+  - Kieselbach
+
+prefixes:
+  - Nord
+  - Süd
+  - Ost
+  - West
+  - Hoch
+  - Tief
+  - Ober
+  - Unter
+  - Groß
+  - Klein
+  - Alt
+  - Neu
+  - Silber
+  - Gold
+  - Kupfer
+  - Eisen
+  - Stahl
+  - Stein
+  - Bronze
+  - Grün
+  - Blau
+  - Rot
+  - Weiß
+  - Schwarz
+  - Grau
+  - Gelb
+  - Purpur
+  - Azur
+  - Hell
+  - Dunkel
+  - Schnell
+  - Still
+  - Stark
+  - Klar
+  - Frisch
+  - Wild
+  - Sanft
+  - Kühn
+  - Weit
+  - Fern
+  - Licht
+  - Sonnen
+  - Mond
+  - Sternen
+  - Wind
+  - Feuer
+  - Eis
+  - Schnee
+  - Wolken
+  - Morgen
+  - Abend
+  - Nacht
+  - Früh
+  - Sommer
+  - Winter
+  - Frühlings
+  - Herbst
+  - Berg
+  - Tal
+  - See
+  - Wald
+  - Fluss
+  - Meer
+  - Himmel
+  - Edel
+  - Rein
+  - Frei
+  - Lang
+  - Breit
+  - Treu
+  - Leise
+  - Glanz
+  - Kristall
+  - Smaragd
+  - Saphir
+  - Rubin
+  - Granit
+  - Marmor
+  - Perl
+  - Nebel
+  - Regen
+  - Sturm
+  - Donner
+  - Frost
+  - Polar
+  - Alpen
+  - Küsten
+  - Insel
+  - Heide
+  - Moor
+  - North
+  - South
+  - East
+  - High
+  - Deep
+  - Upper
+  - Grand
+  - Little
+  - New
+  - Silver
+  - Golden
+  - Iron
+  - Steel
+  - Stone
+  - Green
+  - Blue
+  - Red
+  - White
+  - Black
+  - Grey
+  - Yellow
+  - Purple
+  - Azure
+  - Crimson
+  - Scarlet
+  - Amber
+  - Indigo
+  - Violet
+  - Teal
+  - Cobalt
+  - Ivory
+  - Bright
+  - Dark
+  - Swift
+  - Silent
+  - Strong
+  - Clear
+  - Fresh
+  - Gentle
+  - Bold
+  - Wide
+  - Far
+  - Light
+  - Sun
+  - Moon
+  - Star
+  - Storm
+  - Fire
+  - Ice
+  - Snow
+  - Cloud
+  - Morning
+  - Evening
+  - Night
+  - Dawn
+  - Dusk
+  - Summer
+  - Spring
+  - Autumn
+  - Mountain
+  - Valley
+  - Lake
+  - Forest
+  - River
+  - Ocean
+  - Sky
+  - Noble
+  - Pure
+  - Free
+  - Long
+  - Broad
+  - "True"
+  - Brave
+  - Quiet
+  - Rapid
+  - Arctic
+  - Alpine
+  - Coastal
+  - Lunar
+  - Solar
+  - Stellar
+  - Misty
+  - Sunny
+  - Frosty
+  - Copper
+  - Granite
+  - Quartz
+  - Velvet
+  - Crystal
+  - Emerald
+  - Sapphire
+  - Ruby
+  - Jade
+  - Onyx
+  - Hidden
+  - Open
+  - Prime
+  - Central
+  - Inner
+  - Outer
+  - Rising
+  - Wandering
+  - Glowing
+  - Shining
+
+cores:
+  - Falke
+  - Adler
+  - Bussard
+  - Habicht
+  - Milan
+  - Sperber
+  - Eule
+  - Kauz
+  - Uhu
+  - Rabe
+  - Krähe
+  - Elster
+  - Dohle
+  - Kranich
+  - Reiher
+  - Storch
+  - Schwan
+  - Möwe
+  - Kiebitz
+  - Amsel
+  - Drossel
+  - Fink
+  - Meise
+  - Lerche
+  - Specht
+  - Eisvogel
+  - Zaunkönig
+  - Rotkehlchen
+  - Star
+  - Schwalbe
+  - Segler
+  - Albatros
+  - Pelikan
+  - Kormoran
+  - Fasan
+  - Wachtel
+  - Taucher
+  - Fuchs
+  - Wolf
+  - Luchs
+  - Bär
+  - Dachs
+  - Biber
+  - Otter
+  - Marder
+  - Hirsch
+  - Reh
+  - Elch
+  - Steinbock
+  - Gämse
+  - Wisent
+  - Hase
+  - Igel
+  - Murmeltier
+  - Wal
+  - Delfin
+  - Robbe
+  - Hecht
+  - Forelle
+  - Lachs
+  - Stör
+  - Libelle
+  - Biene
+  - Hummel
+  - Falter
+  - Eiche
+  - Buche
+  - Birke
+  - Linde
+  - Ahorn
+  - Esche
+  - Erle
+  - Ulme
+  - Pappel
+  - Weide
+  - Tanne
+  - Fichte
+  - Kiefer
+  - Lärche
+  - Eibe
+  - Zeder
+  - Kastanie
+  - Walnuss
+  - Holunder
+  - Wacholder
+  - Ginster
+  - Farn
+  - Moos
+  - Distel
+  - Lavendel
+  - Salbei
+  - Thymian
+  - Minze
+  - Mohn
+  - Lilie
+  - Enzian
+  - Edelweiß
+  - Krokus
+  - Tulpe
+  - Orchidee
+  - Lotus
+  - Klee
+  - Efeu
+  - Mistel
+  - Granit
+  - Basalt
+  - Quarz
+  - Marmor
+  - Schiefer
+  - Achat
+  - Bernstein
+  - Jade
+  - Onyx
+  - Opal
+  - Saphir
+  - Rubin
+  - Smaragd
+  - Topas
+  - Kristall
+  - Obsidian
+  - Kobalt
+  - Kupfer
+  - Kiesel
+  - Sturm
+  - Brise
+  - Nebel
+  - Regen
+  - Donner
+  - Blitz
+  - Reif
+  - Tau
+  - Schnee
+  - Hagel
+  - Wolke
+  - Sonne
+  - Mond
+  - Stern
+  - Komet
+  - Polarstern
+  - Orion
+  - Andromeda
+  - Pegasus
+  - Lyra
+  - Vega
+  - Sirius
+  - Kassiopeia
+  - Draco
+  - Berg
+  - Gipfel
+  - Tal
+  - Fjord
+  - Bucht
+  - Insel
+  - Küste
+  - Klippe
+  - Düne
+  - Heide
+  - Moor
+  - Wald
+  - Hain
+  - Lichtung
+  - Quelle
+  - Bach
+  - Fluss
+  - Strom
+  - Delta
+  - Teich
+  - Gletscher
+  - Vulkan
+  - Kap
+  - Riff
+  - Pass
+  - Grat
+  - Hang
+  - Ufer
+  - Furt
+  - Aue
+  - Brücke
+  - Turm
+  - Leuchtturm
+  - Anker
+  - Kompass
+  - Laterne
+  - Segel
+  - Kiel
+  - Ruder
+  - Hafen
+  - Pfad
+  - Tor
+  - Pfeil
+  - Bogen
+  - Feder
+  - Schlüssel
+  - Kerze
+  - Funke
+  - Flamme
+  - Glocke
+  - Spiegel
+  - Prisma
+  - Linse
+  - Mühle
+  - Falcon
+  - Hawk
+  - Eagle
+  - Osprey
+  - Kestrel
+  - Merlin
+  - Owl
+  - Raven
+  - Crow
+  - Heron
+  - Crane
+  - Stork
+  - Swan
+  - Gull
+  - Wren
+  - Robin
+  - Finch
+  - Lark
+  - Sparrow
+  - Swift
+  - Puffin
+  - Pelican
+  - Albatross
+  - Condor
+  - Plover
+  - Sandpiper
+  - Fox
+  - Lynx
+  - Bear
+  - Badger
+  - Beaver
+  - Marten
+  - Stag
+  - Elk
+  - Moose
+  - Bison
+  - Hare
+  - Hedgehog
+  - Squirrel
+  - Marmot
+  - Whale
+  - Dolphin
+  - Seal
+  - Pike
+  - Trout
+  - Salmon
+  - Sturgeon
+  - Dragonfly
+  - Bee
+  - Moth
+  - Oak
+  - Beech
+  - Birch
+  - Linden
+  - Maple
+  - Ash
+  - Alder
+  - Elm
+  - Poplar
+  - Willow
+  - Fir
+  - Spruce
+  - Pine
+  - Larch
+  - Yew
+  - Cedar
+  - Chestnut
+  - Walnut
+  - Elder
+  - Juniper
+  - Heather
+  - Fern
+  - Moss
+  - Thistle
+  - Lavender
+  - Sage
+  - Thyme
+  - Mint
+  - Poppy
+  - Lily
+  - Gentian
+  - Crocus
+  - Tulip
+  - Orchid
+  - Clover
+  - Ivy
+  - Hazel
+  - Rowan
+  - Aspen
+  - Granite
+  - Quartz
+  - Marble
+  - Slate
+  - Agate
+  - Amber
+  - Sapphire
+  - Ruby
+  - Emerald
+  - Topaz
+  - Crystal
+  - Cobalt
+  - Copper
+  - Pebble
+  - Storm
+  - Breeze
+  - Fog
+  - Mist
+  - Rain
+  - Thunder
+  - Lightning
+  - Dew
+  - Snow
+  - Hail
+  - Cloud
+  - Sun
+  - Moon
+  - Comet
+  - Nova
+  - Nebula
+  - Aurora
+  - Meteor
+  - Summit
+  - Valley
+  - Bay
+  - Island
+  - Coast
+  - Cliff
+  - Dune
+  - Forest
+  - Grove
+  - Glade
+  - Spring
+  - Brook
+  - River
+  - Stream
+  - Lake
+  - Pond
+  - Glacier
+  - Volcano
+  - Cape
+  - Reef
+  - Ridge
+  - Shore
+  - Bridge
+  - Tower
+  - Lighthouse
+  - Anchor
+  - Compass
+  - Lantern
+  - Sail
+  - Keel
+  - Rudder
+  - Harbor
+  - Path
+  - Gate
+  - Arrow
+  - Bow
+  - Feather
+  - Key
+  - Candle
+  - Spark
+  - Flame
+  - Bell
+  - Mirror
+  - Prism
+  - Lens
+  - Mill
+  - Beacon
+  - Horizon
+  - Meridian
+  - Zenith
+  - Pinnacle
+  - Tide
+
+suffixes:
+  - "2.0"
+  - "3.0"
+  - "4.0"
+  - Plus
+  - Next
+  - Core
+  - Hub
+  - One
+  - X
+  - Neo
+  - Pro
+  - II
+  - III
+  - IV
+  - Phase 2
+  - Phase 3
+  - Light
+  - Digital
+  - Kompakt
+  - Max
+  - Mini
+  - Prime
+  - Basis
+  - Base
+  - Cloud
+  - Online
+  - Mobile
+  - Connect
+  - Flow
+  - Link
+  - Lab
+  - Labs
+  - Suite
+  - Portal
+  - Platform
+  - Plattform
+  - Neu
+  - Reloaded
+  - Evolution
+  - Edge
+  - Go
+  - Live
+  - Smart
+  - Express
+  - NG
+  - "360"
+  - "2025"
+  - "2026"
+  - "2027"
+  - Alpha
+  - Beta
+  - Gamma
+  - Zero
+  - Ultra
+  - Classic
+  - Stage 2
+  - Pilot
+  - Rollout
+  - Migration
+  - Initiative
+  - Programm
+  - Program
+  - Relaunch
+  - Ausbau
+  - Erweiterung

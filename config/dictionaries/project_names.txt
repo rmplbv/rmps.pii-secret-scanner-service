@@ -1,0 +1,32 @@
+# Real project names used by the organization.
+#
+# These names are detected and redacted as PROJECT entities.
+#
+# Format:
+#   - One name per line.
+#   - Matching is case-insensitive and on whole words only
+#     ("Kiebitz" matches "kiebitz" and "Projekt Kiebitz", but not "Kiebitzweg").
+#   - Lines starting with "#" are comments; blank lines are ignored.
+#   - Multi-word names are allowed ("Beispielprojekt Alpha").
+#   - Add aliases, abbreviations, internal codes and common misspellings as
+#     separate lines (e.g. "Kiebitz", "KBZ", "PRJ-KBZ").
+#   - Prefer specific names; very generic words (e.g. "Portal") cause false positives.
+#
+# REPLACE THE EXAMPLE ENTRIES BELOW WITH YOUR ORGANIZATION'S PROJECT NAMES.
+
+# --- Examples (delete these) ---
+Beispielprojekt Alpha
+Beispielprojekt Beta
+Demo Kiebitz
+Demo-Kiebitz
+Sample Project Osprey
+Sample Osprey
+Testprojekt Zaunkönig
+Example Project Larkspur
+Musterprojekt Wiesenweihe
+MPW-Beispiel
+Demo Silbermöwe
+Sample Project Tamarisk
+Beispielvorhaben Moorlilie
+Example Initiative Bramble
+Platzhalterprojekt Gamma

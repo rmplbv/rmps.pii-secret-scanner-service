@@ -1,0 +1,455 @@
+# Keyword dictionaries for GDPR Art. 9 special-category data (German + English).
+#
+# Term syntax:
+#   - Matched case-insensitively at word boundaries.
+#   - A trailing "*" means prefix match of a word (e.g. "Depressi*" matches
+#     "Depression", "Depressionen", "depressiv"). Only a trailing "*" is supported.
+#   - Multi-word terms are allowed ("Grad der Behinderung", "sick leave").
+#   - Umlauts are written as real umlauts (ä, ö, ü, ß).
+#
+# Per category:
+#   score       base score for a hit on an unambiguous entry in `terms`
+#   terms       unambiguous terms (count on their own)
+#   weak_terms  ambiguous terms (party names, nationality adjectives, "Kirche", ...);
+#               base score 0.3, should only be reported when a `context` word is nearby
+#   context     words that, when found near a term, raise confidence
+#
+# Prefix entries were chosen so they do not swallow common non-sensitive words
+# (e.g. no "Krank*" -> "Krankenkasse", no "Trans*" -> "Transport", no "Gen*" -> "Genehmigung").
+
+categories:
+  - entity: HEALTH_DATA
+    score: 0.6
+    terms:
+      de: [
+        Krankmeldung, krankgemeldet, krankgeschrieben, Krankschreibung, Krankenschein,
+        AU-Bescheinigung, Arbeitsunfähigkeit*, arbeitsunfähig, ärztliches Attest,
+        Krankengeld, Lohnfortzahlung im Krankheitsfall, Krankheitsfall, Krankheitstag*,
+        Krankenstand, Krankenhausaufenthalt, Klinikaufenthalt, stationäre Behandlung,
+        stationär aufgenommen, Notaufnahme, Intensivstation, Reha, Rehabilitation*,
+        Rehaklinik, Kur, Kuraufenthalt, Mutter-Kind-Kur, Wiedereingliederung*,
+        betriebliches Eingliederungsmanagement, BEM-Gespräch, Schwerbehinderung,
+        schwerbehindert*, Schwerbehindertenausweis, GdB, Grad der Behinderung,
+        Behinderung, gehbehindert, sehbehindert, hörgeschädigt, gehörlos, Rollstuhl*,
+        Lernbehinderung, geistige Behinderung, Pflegegrad, Pflegestufe, pflegebedürftig*,
+        Erwerbsminderung*, erwerbsunfähig*, Berufsunfähigkeit*, Berufskrankheit,
+        Arbeitsunfall, Schwangerschaft*, schwanger, Mutterschutz, Beschäftigungsverbot,
+        Mutterpass, Fehlgeburt, Entbindung, Kaiserschnitt, Wochenbett, Kinderwunschbehandlung,
+        künstliche Befruchtung, Unfruchtbarkeit, Abtreibung, Endometriose,
+        Chemotherapie, Chemo, Bestrahlung, Strahlentherapie, Dialyse, Psychotherapie*,
+        Psychotherapeut*, Psychiater*, Psychiatrie, psychiatrisch*, Psychosomati*,
+        Physiotherapie, Ergotherapie, Logopädie, Krebserkrankung, Karzinom*, Tumor*,
+        Leukämie, Lymphom*, Metastase*, Brustkrebs, Darmkrebs, Lungenkrebs, Hautkrebs,
+        Prostata*, onkolog*, Herzinfarkt, Schlaganfall, Herzinsuffizienz,
+        Herzrhythmusstörung*, Herzerkrankung, Herzfehler, Herzklappe*, Herzschrittmacher,
+        Angina pectoris, Bluthochdruck, Hypertonie, Arteriosklerose, Thrombose, Embolie,
+        Asthma*, COPD, Bronchitis, Lungenentzündung, Pneumonie, Tuberkulose, Covid*,
+        Corona-Infektion, Influenza, Grippe, Erkältung, Migräne, Epilepsie, epileptisch*,
+        Multiple Sklerose, Parkinson, Alzheimer, Demenz, Diabet*, Insulin*, Schilddrüse*,
+        Hashimoto, Depressi*, Schizophren*, Psychose, psychotisch*, bipolar*,
+        Borderline-Störung, Angststörung*, Panikattacke*, Zwangsstörung*, ADHS, Autismus,
+        autistisch*, Asperger*, Burnout, Burn-out, Essstörung*, Magersucht, Anorexie,
+        Bulimie, Suizid*, suizidal, Selbstmord*, Selbstverletzung, PTBS, posttraumatisch*,
+        psychische Erkrankung, psychisch krank, seelische Erkrankung, Nervenzusammenbruch,
+        Schlafstörung*, Schlafapnoe, Narkolepsie, Suchterkrankung, alkoholabhängig*,
+        Alkoholismus, Alkoholsucht, Alkoholkrank*, Drogensucht, drogenabhängig*,
+        Entzugsklinik, Entgiftung, Spielsucht, Medikamentenabhängigkeit, HIV, AIDS,
+        Hepatitis, Rheuma*, Arthrose, Arthritis, Bandscheibe*, Ischias, Hexenschuss,
+        Fibromyalgie, Osteoporose, Allergi*, Neurodermitis, Psoriasis, Schuppenflechte,
+        Zöliakie, Laktoseintoleranz, Morbus Crohn, Colitis ulcerosa, Reizdarm*, Gastritis,
+        Niereninsuffizienz, Nierenversagen, Leberzirrhose, Tinnitus, Hörsturz, Grauer Star,
+        Grüner Star, Glaukom, Makuladegeneration, Querschnittslähmung, querschnittsgelähmt,
+        Lähmung, Amputation, Transplantation, Organtransplantation, Antidepressiv*,
+        Psychopharmaka, Neuroleptik*, Benzodiazepin*, Opioid*, Antibiotik*, Blutverdünner,
+        Betablocker, Kortison, Cortison, Methadon, Chemotherapeutik*, chronisch krank,
+        chronische Erkrankung, Adipositas, Fettleibigkeit, Gehirnerschütterung,
+        Kreuzbandriss, Meniskus*, Bandscheibenvorfall, Gürtelrose, Windpocken, Masern,
+        Mumps, Scharlach, Norovirus, Magen-Darm-Grippe, Lebensmittelvergiftung,
+        Blinddarm*, Gallenstein*, Nierenstein*, Hörgerät*, Inkontinenz, Stoma,
+        Down-Syndrom, Downsyndrom, Trisomie, Zerebralparese, Legasthenie, Dyskalkulie,
+        Pfeiffersches Drüsenfieber, ICD-10, ICD-11, ICD-Code, Impfunfähigkeit
+      ]
+      en: [
+        sick leave, sick note, sick day*, off sick, called in sick, calling in sick,
+        medical leave, medical certificate, doctor's note, fit note, incapacity for work,
+        unfit for work, statutory sick pay, short-term disability, long-term disability,
+        disability leave, disabilit*, wheelchair*, visually impaired, hearing impaired,
+        learning disabilit*, intellectual disabilit*, pregnan*, maternity leave,
+        miscarriage, stillbirth, c-section, caesarean, cesarean, prenatal, antenatal,
+        postnatal, postpartum, IVF, fertility treatment, infertility, abortion,
+        endometriosis, chemotherapy, chemo, radiotherapy, radiation therapy, dialysis,
+        physiotherapy, physical therapy, occupational therapy, speech therapy,
+        psychotherapy, psychotherapist*, psychiatrist*, psychiatric*, psychiatry, cancer,
+        carcinoma*, tumor*, tumour*, leukemia, leukaemia, lymphoma*, metasta*, oncolog*,
+        heart attack, myocardial infarction, cardiac arrest, heart failure, heart disease,
+        heart condition, arrhythmia, pacemaker, hypertension, high blood pressure,
+        thrombosis, embolism, asthma*, COPD, bronchitis, pneumonia, tuberculosis, covid*,
+        coronavirus, influenza, migraine*, epilep*, multiple sclerosis, parkinson*,
+        alzheimer*, dementia, diabet*, insulin, thyroid*, hypothyroidism, hyperthyroidism,
+        depression, depressive, schizophreni*, psychosis, psychotic, bipolar*,
+        borderline personality, anxiety disorder*, panic attack*, OCD,
+        obsessive-compulsive, ADHD, autism, autistic, asperger*, burnout, burn-out,
+        eating disorder*, anorexia, bulimia, suicid*, self-harm, PTSD, post-traumatic,
+        mental illness, mentally ill, mental health condition, mental health issue*,
+        nervous breakdown, chronic illness, chronic condition, chronically ill,
+        sleep disorder*, insomnia, sleep apnea, sleep apnoea, narcolepsy, addiction*,
+        alcoholism, substance abuse, drug abuse, drug addict*, opioid*, methadone, HIV,
+        hepatitis, rheumat*, arthritis, osteoarthritis, slipped disc, herniated disc,
+        sciatica, fibromyalgia, osteoporosis, allerg*, eczema, psoriasis, celiac, coeliac,
+        lactose intolerance, Crohn's disease, ulcerative colitis, irritable bowel, IBS,
+        gastritis, kidney failure, renal failure, cirrhosis, tinnitus, cataract*, glaucoma,
+        macular degeneration, paralys*, paralyzed, paraplegi*, quadriplegi*, amputation,
+        prosthe*, organ transplant, bypass surgery, antidepressant*, SSRI*,
+        antipsychotic*, benzodiazepine*, antibiotic*, blood thinner*, beta blocker*,
+        hospitali*, intensive care, ICU, ICD-10, ICD-11, diagnosis code, long-term care,
+        occupational disease, workplace injury, obesity, obese, concussion, torn ligament,
+        broken leg, broken arm, shingles, chickenpox, measles, mumps, scarlet fever,
+        norovirus, food poisoning, stomach bug, appendicitis, gallstone*, kidney stone*,
+        angina, hearing aid*, incontinence, Down syndrome, Down's syndrome, trisomy,
+        cerebral palsy, dyslexi*, dyscalculia, flu-like symptoms
+      ]
+    weak_terms:
+      de: [
+        krank, Krankheit, erkrankt, Krebs, Therapie, Therapeut*, Medikament*, Medikation,
+        Rezept, Schmerzmittel, Krankenhaus, Klinik, Arztbesuch, Arzttermin, Facharzt,
+        Hausarzt, Operation, OP, Eingriff, Infektion, Impfung, ungeimpft, Trauma, Sucht,
+        Entzug, Behinderte*, behindert, blind, taub, MS, ADS, dement, Hamburger Modell,
+        Gleichstellung, Übergewicht, Wechseljahre, Menopause, Fraktur, Bypass, Stent,
+        Attest, Befund, Vorsorgeuntersuchung, Blutdruck, Zuckerwerte, Allergiker,
+        Sportverletzung, Rückenschmerzen, Kopfschmerzen, Fieber, Unwohlsein, Stottern,
+        Schwerbehindertenvertretung, Kurklinik, Genesung, Arbeitsmedizin*, Betriebsarzt, SSW
+      ]
+      en: [
+        sick, ill, illness, unwell, disease, disabled, blind, deaf, handicap*, therapy,
+        therapist, counselling, counseling, rehab, rehabilitation, detox, withdrawal,
+        trauma, addicted, alcoholic, AIDS, MS, ADD, flu, stroke, medication, prescription,
+        painkiller*, steroid*, hospital, clinic, emergency room, surgery, operation, GP,
+        doctor's appointment, medical appointment, infection, tested positive,
+        unvaccinated, vaccination, transplant, fracture, overweight, menopause,
+        special needs, stutter*, sick pay, care needs, nursing care, carer, recovery,
+        fever, migraine attack, back pain, maternity, maternity pay, SSP
+      ]
+    context:
+      de: [
+        Diagnose, diagnostiziert, leidet, erkrankt, Erkrankung, Arzt, Ärztin, Befund,
+        Patient, Patientin, Behandlung, behandelt, Therapie, Klinik, Krankenhaus, Symptome,
+        Attest, Medikament, Medikamente, chronisch, Krankenkasse, Facharzt, Hausarzt,
+        Untersuchung, Krankheit, Rezept, stationär, ambulant, Gesundheit, gesundheitlich,
+        Beschwerden, Genesung, Operation, Krankmeldung, krankgeschrieben, Reha
+      ]
+      en: [
+        diagnosed, diagnosis, suffers, suffering, suffered, ill, illness, doctor,
+        physician, patient, treatment, treated, therapy, clinic, hospital, symptoms,
+        medical, medication, prescribed, chronic, condition, GP, specialist, appointment,
+        health, recovering, recovery, surgery, sick, disorder, sick leave
+      ]
+
+  - entity: RELIGION
+    score: 0.6
+    terms:
+      de: [
+        katholisch, römisch-katholisch, Katholik*, evangelisch, protestantisch,
+        Protestant*, lutherisch, Lutheraner*, griechisch-orthodox, russisch-orthodox,
+        serbisch-orthodox, freikirchlich, Freikirche, evangelikal, Baptist*, Methodist*,
+        Mennonit*, Adventist*, Zeugen Jehovas, Zeuge Jehovas, Zeugin Jehovas, Mormone*,
+        neuapostolisch*, Pfingstgemeinde, muslimisch, Muslim*, Moslem*, islamisch, Islam,
+        Sunnit*, sunnitisch, Schiit*, schiitisch, Alevit*, alevitisch, Ahmadiyya,
+        jüdisch, Jüdin, Judentum, Synagoge, Moschee, buddhistisch, Buddhist*, Buddhismus,
+        hinduistisch, Hinduismus, Hindu, Sikh*, Jeside*, Jesid*, jesidisch, Bahai, Bahá'í,
+        atheistisch, Atheist*, agnostisch, Agnostiker*, konfessionslos, Konfession*,
+        Religionszugehörigkeit, Glaubensbekenntnis, Glaubensgemeinschaft,
+        Religionsgemeinschaft, Kirchensteuer*, Kirchenaustritt, aus der Kirche ausgetreten,
+        Kirchenmitglied*, Kirchenzugehörigkeit, Ramadan, Fastenbrechen, Zuckerfest,
+        Opferfest, Freitagsgebet, Gebetszeit*, Hidschab, Hijab, Burka, Niqab, Kippa,
+        koscher, halal, Sabbat, Schabbat, Jom Kippur, Pessach, Chanukka, Rosch ha-Schana,
+        Diwali, getauft, Firmung, Konfirmation, Erstkommunion, Bar Mizwa, Bat Mizwa,
+        Hadsch, gläubig, strenggläubig, religiös, Christentum, christlich, Christin,
+        Scientology, Scientologe*, Religionsunterricht, Ordensschwester, Ordensbruder
+      ]
+      en: [
+        Catholic, Catholicism, Protestant*, Lutheran*, Anglican*, Episcopalian*,
+        evangelical, Baptist*, Methodist*, Presbyterian*, Pentecostal*, Quaker*,
+        Mennonite*, Amish, Adventist*, Jehovah's Witness*, Mormon*, Latter-day Saint*,
+        Orthodox Christian, Greek Orthodox, Russian Orthodox, Muslim*, Moslem*, Islam,
+        Islamic, Sunni, Shia, Shiite, Alevi, Ahmadi*, Jewish, Judaism, synagogue, mosque,
+        Buddhis*, Hindu*, Sikh*, Jain*, Yazidi*, Bahá'í, Baha'i, atheis*, agnostic*,
+        non-religious, irreligious, religious affiliation, religious belief*,
+        religious denomination, church tax, Ramadan, Eid al-Fitr, Eid al-Adha,
+        Friday prayer*, hijab, burqa, niqab, kippah, yarmulke, kosher, halal, Sabbath,
+        Shabbat, Yom Kippur, Passover, Hanukkah, Rosh Hashanah, Diwali, baptized,
+        baptised, First Communion, bar mitzvah, bat mitzvah, Hajj, devout,
+        Christianity, Scientolog*, born-again, churchgoer*
+      ]
+    weak_terms:
+      de: [
+        orthodox, reformiert, Jude, Christ, Kirche, Gemeindemitglied, Kirchengemeinde,
+        Gottesdienst, Messe, Pfarrer, Pfarrerin, Pastor, Pastorin, Imam, Rabbiner, Priester,
+        Taufe, Kommunion, Beschneidung, Pilgerfahrt, Kopftuch, Turban, Gebet, Gebetsraum,
+        Religion, Glaube, Ostern, Weihnachten, Advent, Fastenzeit, Kirchentag, Eid,
+        Opfergabe, Gemeinde, Kloster
+      ]
+      en: [
+        orthodox, Jew, Christian, church, congregation, parish, mass, priest, pastor, imam,
+        rabbi, minister, baptism, confirmation, pilgrimage, headscarf, turban, prayer,
+        religion, religious, faith, Lent, Christmas, Easter, Eid, temple, monastery
+      ]
+    context:
+      de: [
+        Mitglied, gehört, Glaube, glaubt, praktizierend, Konfession, Religion, Gemeinde,
+        bekennt, konvertiert, Religionszugehörigkeit, Kirche, betet, feiert, fastet,
+        Lohnsteuer, Steuermerkmal, gläubig, ausgetreten, eingetreten, Feiertag
+      ]
+      en: [
+        member, belongs, faith, believes, practising, practicing, religion, congregation,
+        converted, convert, prays, observes, observing, fasting, celebrates, denomination,
+        affiliation, devout, worship, holy day
+      ]
+
+  - entity: POLITICAL_OPINION
+    score: 0.6
+    terms:
+      de: [
+        Parteimitglied*, Parteimitgliedschaft, Parteibuch, Parteiausweis, Parteieintritt,
+        Parteiaustritt, Parteibeitrag, Parteispende*, politische Einstellung,
+        politische Gesinnung, politische Überzeugung*, politische Meinung,
+        politische Haltung, politisch engagiert, politisches Engagement, Wahlpräferenz,
+        Wahlentscheidung, Stammwähler*, Wechselwähler*, rechtsextrem*, linksextrem*,
+        rechtsradikal*, linksradikal*, Neonazi*, Reichsbürger*, Kommunist*,
+        Sozialdemokrat*, Christdemokrat*, Christsoziale*, Wahlkampfhelfer*, Mitglied der Partei,
+        Parteifreund*, Parteitagsdelegierte*, Ortsvereinsvorsitz*, Kreisvorsitz*
+      ]
+      en: [
+        party member*, party membership, card-carrying, political affiliation*,
+        political view*, political opinion*, political belief*, political leaning*,
+        voting intention*, registered Democrat, registered Republican, registered voter,
+        far-right, far-left, neo-Nazi*, white supremacist*, communist*, anarchist*,
+        campaign volunteer*, party donor*, political donation*, canvasser*
+      ]
+    weak_terms:
+      de: [
+        CDU, CSU, SPD, FDP, Grüne, Die Grünen, Bündnis 90, Bündnis 90/Die Grünen,
+        Die Linke, Linkspartei, AfD, BSW, Bündnis Sahra Wagenknecht, Freie Wähler, ÖDP,
+        Volt, Die PARTEI, Piratenpartei, NPD, Die Heimat, Tierschutzpartei, dieBasis, MLPD,
+        DKP, Bayernpartei, SSW, ÖVP, SPÖ, FPÖ, NEOS, SVP, SP Schweiz, Jusos, Junge Union,
+        Junge Liberale, JuLis, Grüne Jugend, Linksjugend, Junge Alternative, Antifa,
+        Querdenker, Sozialist*, liberal, konservativ, progressiv, Demonstration, Kundgebung,
+        Ortsverein, Ortsverband, Kreisverband, Stadtrat, Stadträtin, Gemeinderat,
+        Abgeordnete*, Wähler, Wählerin, Briefwahl, Unterschriftenliste, Petition
+      ]
+      en: [
+        Democrat*, Republican*, GOP, Democratic Party, Republican Party, Labour,
+        Labour Party, Tory, Tories, Conservative Party, Conservatives, Lib Dem*,
+        Liberal Democrats, SNP, Plaid Cymru, Green Party, Greens, Reform UK, UKIP,
+        Brexit Party, DUP, Sinn Féin, Sinn Fein, Libertarian Party, Libertarian*, MAGA,
+        Tea Party, Democratic Socialists of America, DSA, Antifa, socialist*, liberal,
+        conservative, progressive, protest, rally, activist*, picketing, petition,
+        councillor, councilor, precinct, caucus
+      ]
+    context:
+      de: [
+        Mitglied, Mitgliedschaft, wählt, gewählt, wählen, Wähler, Wählerin, Partei,
+        engagiert, aktiv, kandidiert, Kandidat, Kandidatin, unterstützt, sympathisiert,
+        Anhänger, Anhängerin, eingetreten, ausgetreten, Ortsverein, Stimme, Wahl, politisch,
+        Spende, spendet, Wahlkampf, Parteitag, Delegierter
+      ]
+      en: [
+        member, membership, votes, voted, voting, voter, supporter, supports, party,
+        campaign, campaigning, candidate, running, joined, donated, donor, affiliated,
+        registered, canvassing, political, sympathizer, sympathiser, election, ballot
+      ]
+
+  - entity: TRADE_UNION
+    score: 0.6
+    terms:
+      de: [
+        Gewerkschaft*, Gewerkschaftsmitglied*, gewerkschaftlich organisiert,
+        Gewerkschafter*, ver.di, IG Metall, IG BCE, IG BAU, GEW, EVG, NGG, GdP, GDL, DGB,
+        Deutscher Gewerkschaftsbund, Marburger Bund, dbb, dbb beamtenbund und tarifunion,
+        Beamtenbund, DPolG, VBE, Vereinigung Cockpit, Unabhängige Flugbegleiter Organisation,
+        CGB, Christlicher Gewerkschaftsbund, ÖGB, Österreichischer Gewerkschaftsbund,
+        GPA-djp, younion, PRO-GE, Unia, Syna, Schweizerischer Gewerkschaftsbund,
+        Streikgeld, Streikunterstützung, Mitgliedsbeitrag der Gewerkschaft
+      ]
+      en: [
+        trade union*, labor union*, labour union*, union member*, union membership,
+        unionized, unionised, union dues, union representative*, union rep, shop steward*,
+        Unite the Union, UNISON, GMB, RMT, Royal College of Nursing, RCN,
+        National Education Union, NASUWT, PCS union, CWU, Usdaw, British Medical Association,
+        TUC, Trades Union Congress, AFL-CIO, Teamsters, SEIU, AFSCME, UAW,
+        United Auto Workers, United Steelworkers, American Federation of Teachers,
+        National Education Association, IBEW, UFCW, Communications Workers of America,
+        Unifor, CUPE, strike pay, union card
+      ]
+    weak_terms:
+      de: [
+        Verdi, Betriebsrat, Betriebsrätin, Betriebsratsmitglied, Betriebsratsvorsitz*,
+        Personalrat, Personalratsmitglied, Mitarbeitervertretung,
+        Jugend- und Auszubildendenvertretung, JAV, Vertrauensleute, Vertrauensmann,
+        Vertrauensfrau, Streik, Warnstreik, Tarifkommission, Tarifverhandlung*,
+        Philologenverband, komba, DJV, UFO, Cockpit, vida, SGB, Arbeitskampf
+      ]
+      en: [
+        union, Unite, NEU, PCS, BMA, NEA, AFT, USW, CWA, strike, walkout, picket line,
+        collective bargaining, works council, bargaining unit, steward, local chapter
+      ]
+    context:
+      de: [
+        Mitglied, Mitgliedschaft, organisiert, eingetreten, ausgetreten, Beitrag,
+        Mitgliedsbeitrag, Vertrauensmann, aktiv, Streik, Delegierte, Vorstand, vertritt,
+        Tarif, Ortsgruppe, Bezirk, gewählt, Kandidatur, engagiert
+      ]
+      en: [
+        member, membership, joined, dues, organized, organised, steward, delegate,
+        representative, strike, branch, local, chapter, bargaining, organizing, elected,
+        rep, belongs
+      ]
+
+  - entity: ETHNIC_ORIGIN
+    score: 0.6
+    terms:
+      de: [
+        Migrationshintergrund, Einwanderungsgeschichte, ethnische Herkunft,
+        ethnischen Herkunft, ethnischer Herkunft, ethnische Zugehörigkeit,
+        ethnischen Zugehörigkeit, Ethnie, Ethnizität, rassische Herkunft, Hautfarbe,
+        Sinti, Sinti und Roma, Jenische, Sorbe, Sorbin, sorbisch, dänische Minderheit,
+        Afrodeutsch*, Schwarze Deutsche, People of Color, BIPoC, Spätaussiedler*,
+        Russlanddeutsch*, Aussiedler*, türkischstämmig*, russischstämmig*,
+        polnischstämmig*, arabischstämmig*, afrikanischstämmig*, asiatischstämmig*,
+        kurdischstämmig*, vietnamesischstämmig*, italienischstämmig*, griechischstämmig*,
+        ausländischer Herkunft, nichtdeutscher Herkunft, dunkelhäutig*, Volksgruppe,
+        indigen*, Ureinwohner*, Aborigine*, Roma-Herkunft, Migrant*
+      ]
+      en: [
+        ethnic origin, ethnicity, ethnic background, ethnic group, ethnic minority,
+        racial origin, racial background, racial identity, skin colour, skin color,
+        migrant background, immigrant background, BAME, BME, BIPOC, people of colour,
+        people of color, person of colour, person of color, African American*,
+        African-American*, Black British, Afro-Caribbean, Asian American*,
+        Asian-American*, Hispanic, Latino, Latina, Latinx, Native American*,
+        First Nations, indigenous people*, Aboriginal, Torres Strait Islander*, Romani,
+        Gypsy, Irish Traveller*, Sinti, mixed race, mixed-race, biracial, multiracial,
+        Pacific Islander*, Inuit, Māori, Maori, White British, of African descent,
+        of Asian descent, Turkish descent
+      ]
+    weak_terms:
+      de: [
+        Roma, Kurde, Kurdin, kurdisch, Türke, Türkin, türkisch, Araber*, arabisch,
+        Afrikaner*, afrikanisch, nordafrikanisch, Asiat*, asiatisch, polnisch, russisch,
+        rumänisch, bulgarisch, syrisch, afghanisch, italienisch, griechisch, kroatisch,
+        serbisch, bosnisch, albanisch, kosovarisch, vietnamesisch, chinesisch, indisch,
+        pakistanisch, iranisch, persisch, irakisch, libanesisch, marokkanisch, tunesisch,
+        nigerianisch, eritreisch, somalisch, ukrainisch, tamilisch, slawisch, osteuropäisch,
+        südländisch, hispanisch, Latino, Friese, Friesin, Einwanderer, Zuwanderer,
+        Gastarbeiter*, Geflüchtete*, Flüchtling*, Asylbewerber*, Staatsangehörigkeit,
+        Nationalität, Herkunftsland, Muttersprache, gebürtig*, Abstammung, Wurzeln
+      ]
+      en: [
+        Roma, Kurd*, Turkish, Arab, Arabic, African, North African, Asian, Polish, Russian,
+        Romanian, Bulgarian, Syrian, Afghan, Italian, Greek, Croatian, Serbian, Bosnian,
+        Albanian, Vietnamese, Chinese, Indian, Pakistani, Bangladeshi, Iranian, Persian,
+        Iraqi, Lebanese, Moroccan, Nigerian, Somali, Eritrean, Ukrainian, Mexican,
+        Puerto Rican, Filipino, Korean, Japanese, Caribbean, Caucasian, Black, POC, race,
+        racial, Traveller, immigrant, migrant, refugee, asylum seeker, nationality,
+        mother tongue, native language, descent, heritage, ancestry
+      ]
+    context:
+      de: [
+        Herkunft, stammt, stammen, Wurzeln, Familie, Eltern, geboren, Abstammung,
+        Migrationshintergrund, Volksgruppe, Minderheit, Herkunftsland, Hautfarbe, ethnisch,
+        Nationalität, eingewandert, aufgewachsen, Vorfahren, Community, Kultur
+      ]
+      en: [
+        origin, descent, roots, heritage, background, family, parents, born, ancestry,
+        ethnic, ethnicity, minority, community, immigrated, nationality, grew up, ancestors,
+        identifies, culture
+      ]
+
+  - entity: SEXUAL_ORIENTATION
+    score: 0.6
+    terms:
+      de: [
+        homosexuell*, Homosexualität, heterosexuell*, Heterosexualität, bisexuell*,
+        Bisexualität, pansexuell*, asexuell*, schwul*, lesbisch*, Lesbe, queer, LGBT*,
+        LSBTI*, LSBTTIQ*, transgender, Transfrau, Transmann, transsexuell*,
+        Transsexualität, transident*, Transidentität, nicht-binär*, nichtbinär*,
+        non-binär*, intersexuell*, Intersexualität, intergeschlechtlich*,
+        Geschlechtsangleichung, geschlechtsangleichend*, Geschlechtsumwandlung,
+        Coming-out, geoutet, gleichgeschlechtlich*, Homo-Ehe, eingetragene Lebenspartnerschaft,
+        sexuelle Orientierung, sexuelle Identität, Geschlechtsidentität, Sexualleben,
+        Regenbogenfamilie, Personenstandsänderung, Selbstbestimmungsgesetz
+      ]
+      en: [
+        homosexual*, heterosexual*, bisexual*, pansexual*, asexual*, gay, lesbian*, queer,
+        LGBT*, transgender, trans woman, trans man, transsexual*, non-binary, nonbinary,
+        genderqueer, genderfluid, gender-fluid, intersex, gender reassignment,
+        gender-affirming, sex change, came out as, coming out as, same-sex, sexual orientation,
+        sexual preference*, gender identity, sex life, Pride parade
+      ]
+    weak_terms:
+      de: [
+        trans, bi, Coming out, Outing, Transition, Lebenspartnerschaft, Lebenspartner,
+        Lebenspartnerin, Ehe für alle, Sexualität, CSD, Christopher Street Day, Pride,
+        Drag Queen, Regenbogen, divers
+      ]
+      en: [
+        trans, bi, straight, coming out, came out, outed, transition, transitioning,
+        civil partnership, domestic partner, sexuality, Pride, drag queen, rainbow
+      ]
+    context:
+      de: [
+        Partner, Partnerin, Lebensgefährte, Lebensgefährtin, Ehemann, Ehefrau, Freund,
+        Freundin, geoutet, Beziehung, verheiratet, offen, Identität, Orientierung,
+        lebt, identifiziert, bekennt, Geschlecht
+      ]
+      en: [
+        partner, husband, wife, boyfriend, girlfriend, spouse, relationship, married,
+        openly, identifies, identity, orientation, came, out, lives with, gender
+      ]
+
+  - entity: GENETIC_BIOMETRIC
+    score: 0.6
+    terms:
+      de: [
+        Fingerabdr*, Fingerprint*, Gesichtserkennung, Gesichtsscan, Gesichtsgeometrie,
+        biometrisch*, Biometrie, Iris-Scan, Irisscan, Iriserkennung, Netzhautscan,
+        Retina-Scan, Handvenenscan, Handvenenerkennung, Venenerkennung, Stimmprofil,
+        Stimmabdruck, Sprechererkennung, Gangerkennung, Tippverhalten, Handgeometrie,
+        DNA, DNA-Analyse, DNA-Probe, DNA-Test, DNA-Profil, Gentest, genetisch*,
+        Genanalyse, Gendiagnostik, Genom*, Erbgut, Erbkrankheit*, erblich bedingt,
+        Erbanlage*, Gendefekt, Genmutation, Genvariante, BRCA*, Chromosom*,
+        Vaterschaftstest, Abstammungsgutachten, Abstammungstest, Speichelprobe,
+        Pränataldiagnostik, Trägerstatus, Genotyp*, Gensequenzierung, Biometriedaten,
+        biometrisches Lichtbild, Gesichtsbiometrie
+      ]
+      en: [
+        fingerprint*, facial recognition, face recognition, facial geometry, face scan*,
+        biometric*, iris scan*, iris recognition, retina scan*, retinal scan*, palm vein*,
+        vein pattern*, hand geometry, voiceprint*, voice print*, speaker recognition,
+        gait recognition, keystroke dynamics, DNA, DNA test*, DNA sample*, DNA profile*,
+        DNA analysis, genetic*, genome*, genomic*, genotyp*, hereditary, inherited disease*,
+        inherited condition*, gene mutation*, gene variant*, BRCA*, chromosom*,
+        paternity test*, ancestry test*, saliva sample*, carrier status, genetic screening,
+        gene sequencing, whole-genome
+      ]
+    weak_terms:
+      de: [
+        Gesichtsbild, Lichtbild, Face ID, Touch ID, Stimmerkennung, Blutprobe,
+        Gewebeprobe, Blutgruppe, Sequenzierung, Genetik, Handschrift, Unterschriftsprobe,
+        Zugangskontrolle, Zeiterfassungsterminal, Scan
+      ]
+      en: [
+        facial image, Face ID, Touch ID, voice recognition, blood sample, tissue sample,
+        blood type, blood group, prenatal screening, sequencing, genetics, signature
+        dynamics, access control, time clock, scan
+      ]
+    context:
+      de: [
+        Probe, Analyse, Test, Ergebnis, erfasst, gespeichert, Scan, Abgleich, Merkmal,
+        Merkmale, Labor, Zugang, Zeiterfassung, Erkennung, Auswertung, Daten, Vorlage,
+        hinterlegt, Lesegerät, Terminal
+      ]
+      en: [
+        sample, analysis, test, result, captured, stored, scan, matching, template,
+        laboratory, lab, access, enrolled, enrollment, recognition, data, reader, terminal,
+        collected
+      ]

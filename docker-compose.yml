@@ -1,0 +1,124 @@
+# PII service: api + workers + redis + local LLM. Everything runs offline;
+# only the api port is published.
+#
+#   cp .env.example .env    # set PII_VAULT_KEY and PII_API_KEYS
+#   scripts/fetch_llm.sh    # once: ~5 GB GGUF into ./models/gguf
+#   docker compose up -d --build
+#
+# Approximate RAM: llm ~9-10 GB, worker-full ~5-6 GB, worker-fast ~2 GB, rest <1 GB.
+
+x-app: &app
+  build:
+    context: .
+    dockerfile: docker/Dockerfile
+  image: pii-service:latest
+  restart: unless-stopped
+  read_only: true
+  tmpfs: [/tmp]
+  security_opt: ["no-new-privileges:true"]
+  cap_drop: [ALL]
+  environment: &app-env
+    REDIS_URL: redis://redis:6379/0
+    PII_VAULT_KEY: ${PII_VAULT_KEY:?set PII_VAULT_KEY in .env}
+    LOG_LEVEL: ${LOG_LEVEL:-INFO}
+  depends_on:
+    redis:
+      condition: service_healthy
+
+services:
+  api:
+    <<: *app
+    command: ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2",
+              "--no-access-log"]
+    environment:
+      <<: *app-env
+      PII_API_KEYS: ${PII_API_KEYS:-}
+    ports: ["${PII_PORT:-8000}:8000"]
+    networks: [frontend, backend]
+    mem_limit: 768m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+
+  # profile "fast" (patterns + spaCy): answers in seconds even while long jobs run
+  worker-fast:
+    <<: *app
+    command: ["arq", "app.worker.WorkerSettings"]
+    environment:
+      <<: *app-env
+      PII_QUEUE: pii:fast
+      OMP_NUM_THREADS: ${FAST_THREADS:-2}
+    networks: [backend]
+    mem_limit: 3g
+
+  # profiles "balanced" and "thorough" (adds XLM-R, GLiNER, LLM)
+  worker-full:
+    <<: *app
+    command: ["arq", "app.worker.WorkerSettings"]
+    environment:
+      <<: *app-env
+      PII_QUEUE: pii:full
+      PII_LLM_URL: http://llm:8080
+      OMP_NUM_THREADS: ${WORKER_THREADS:-4}
+      MKL_NUM_THREADS: ${WORKER_THREADS:-4}
+    networks: [backend]
+    mem_limit: 7g
+    depends_on:
+      redis:
+        condition: service_healthy
+      llm:
+        condition: service_healthy
+
+  llm:
+    # pinned by digest for reproducibility; update deliberately
+    image: ghcr.io/ggml-org/llama.cpp:server@sha256:970168341efef973da5666ea5c362fa428ee66ba0dfa621b0f69bf3feb3320f7
+    restart: unless-stopped
+    command:
+      - -m
+      - /models/${LLM_FILE:-Qwen3-8B-Q4_K_M.gguf}
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8080"
+      - --ctx-size
+      - "${LLM_CTX:-8192}"
+      - --threads
+      - "${LLM_THREADS:-6}"
+      - --parallel
+      - "1"
+      - --jinja
+      - --alias
+      - qwen3-8b
+    volumes: ["./models/gguf:/models:ro"]
+    networks: [backend]
+    mem_limit: 11g
+    security_opt: ["no-new-privileges:true"]
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 120s
+
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    # AOF persistence keeps reversible sessions across restarts (contents are encrypted)
+    command: ["redis-server", "--appendonly", "yes", "--save", "", "--maxmemory", "1gb",
+              "--maxmemory-policy", "noeviction"]
+    volumes: ["redis-data:/data"]
+    networks: [backend]
+    mem_limit: 1200m
+    security_opt: ["no-new-privileges:true"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+
+networks:
+  frontend: {}
+  backend:
+    internal: true   # workers, LLM and redis have no outside network access
+
+volumes:
+  redis-data: {}
